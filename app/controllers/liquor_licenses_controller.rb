@@ -85,14 +85,7 @@ class LiquorLicensesController < ApplicationController
     end
   end
   def paypal_request
-    respond_to do |format|
-      if User.find(@liquor_license.user_id).user_detail.paypal_account == nil
-        logger.info 'abc1111'
-        format.html { redirect_to(@liquor_license, :notice => 'Order was successfully created.') }
-        format.xml  { head :ok }
-        return false
-      end
-    end
+
     pay_request = PaypalAdaptive::Request.new
     @liquor_license = LiquorLicense.find(params[:id])  
 
