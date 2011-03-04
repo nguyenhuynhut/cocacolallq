@@ -78,6 +78,6 @@ DEPENDENCIES
   jquery-rails
   json_pure
   mysql
-  nokogiri (= 1.4.4.1)
+  nokogiri (= 1.4.1)
   paypal_adaptive
   rails (= 3.0.4)
