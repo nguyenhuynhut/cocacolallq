@@ -9,6 +9,7 @@ gem 'mysql'
 gem 'paypal_adaptive'
 gem 'nokogiri'
 gem 'jquery-rails'
+gem 'json_pure'
 # Use unicorn as the web server
 # gem 'unicorn'
 
