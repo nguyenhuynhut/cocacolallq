@@ -7,7 +7,7 @@ gem 'rails', '3.0.4'
 
 gem 'mysql'
 gem 'paypal_adaptive'
-gem 'nokogiri'
+gem 'nokogiri' , '1.4.4.1'
 gem 'jquery-rails'
 gem 'json_pure'
 
