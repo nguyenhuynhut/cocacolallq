@@ -1,0 +1,2 @@
+module LiquorLicensesHelper
+end

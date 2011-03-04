@@ -1,0 +1,66 @@
+<%= form_for(@liquor_license) do |f| %>
+  <% if @liquor_license.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@liquor_license.errors.count, "error") %> prohibited this liquor_license from being saved:</h2>
+
+      <ul>
+        <% @liquor_license.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_area :title, :size => "23x12" %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+
+    <%= f.select(:state, GeoinfoState.find(:all).collect {|c| [ c.name, c.name ] }) %> 
+
+  </div>
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </div>
+  <% if @valid_user.kind == 'Selling' %>
+    <div class="field">
+      <%= f.label :price %><br />
+      <%= f.text_field :price %>
+      <%= f.hidden_field :purpose , :value => 'Sell' %>
+    </div>
+  <% end %>
+  <% if @valid_user.kind == 'Buying' %>
+    <%= f.hidden_field :price , :value => '0' %>
+    <%= f.hidden_field :purpose , :value => 'Buy' %>
+  <% end %>
+  <% if @valid_user.kind == 'Both' %>
+<script type="text/javascript">
+  function disablePrice() {
+      $("#price_css").css('display', 'none');
+      $("#liquor_license_price").val("0");
+  }
+  function enablePrice() {
+      $("#price_css").css('display', 'block');
+  }
+</script>
+    <div class="field">
+      <%= f.label :purpose %><br />
+      <%= f.radio_button "purpose", "Sell" , :onclick => 'enablePrice();'%>Sell
+      <%= f.radio_button "purpose", "Buy" , :onclick => 'disablePrice();'%>Buy
+    </div>
+    <div class="field" id="price_css">
+      <%= f.label :price  %><br />
+      <%= f.text_field :price , :value => '0'%>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :expiration_date %><br />
+    <%= f.date_select :expiration_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

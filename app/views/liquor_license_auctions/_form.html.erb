@@ -1,0 +1,21 @@
+<%= form_for(@liquor_license_auction) do |f| %>
+  <% if @liquor_license_auction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@liquor_license_auction.errors.count, "error") %> prohibited this liquor_license_auction from being saved:</h2>
+
+      <ul>
+      <% @liquor_license_auction.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :price %><br />
+    <%= f.text_field :price %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

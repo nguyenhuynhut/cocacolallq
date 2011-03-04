@@ -1,0 +1,444 @@
+  attributes:
+    name: ALASKA
+    abbr: AK
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "1"
+
+  attributes:
+    name: ALABAMA
+    abbr: AL
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "2"
+
+  attributes:
+    name: ARKANSAS
+    abbr: AR
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "3"
+    
+
+  attributes:
+    name: AMERICAN SAMOA
+    abbr: AS
+    country: UNITED STATES OF AMERICA
+    type: TERRITORY
+    id: "4"
+    
+
+  attributes:
+    name: ARIZONA
+    abbr: AZ
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "5"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: CALIFORNIA
+    abbr: CA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "6"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: COLORADO
+    abbr: CO
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "7"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: CONNECTICUT
+    abbr: CT
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "8"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: DISTRICT OF COLUMBIA
+    abbr: DC
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "9"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: DELAWARE
+    abbr: DE
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "10"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: FLORIDA
+    abbr: FL
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "11"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: GEORGIA
+    abbr: GA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "12"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: GUAM
+    abbr: GU
+    country: UNITED STATES OF AMERICA
+    type: TERRITORY
+    id: "13"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: HAWAII
+    abbr: HI
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "14"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: IOWA
+    abbr: IA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "15"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: IDAHO
+    abbr: ID
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "16"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: ILLINOIS
+    abbr: IL
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "17"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: INDIANA
+    abbr: IN
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "18"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: KANSAS
+    abbr: KS
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "19"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: KENTUCKY
+    abbr: KY
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "20"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: LOUISIANA
+    abbr: LA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "21"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MASSACHUSETTS
+    abbr: MA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "22"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MARYLAND
+    abbr: MD
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "23"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MAINE
+    abbr: ME
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "24"
+    
+
+  attributes:
+    name: MICHIGAN
+    abbr: MI
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "25"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MINNESOTA
+    abbr: MN
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "26"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MISSOURI
+    abbr: MO
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "27"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MARIANA ISLANDS
+    abbr: MP
+    country: UNITED STATES OF AMERICA
+    type: TERRITORY
+    id: "28"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MISSISSIPPI
+    abbr: MS
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "29"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: MONTANA
+    abbr: MT
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "30"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NORTH CAROLINA
+    abbr: NC
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "31"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NORTH DAKOTA
+    abbr: ND
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "32"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEBRASKA
+    abbr: NE
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "33"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEW HAMPSHIRE
+    abbr: NH
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "34"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEW JERSEY
+    abbr: NJ
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "35"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEW MEXICO
+    abbr: NM
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "36"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEVADA
+    abbr: NV
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "37"
+    
+- !ruby/object:GeoinfoState
+  attributes:
+    name: NEW YORK
+    abbr: NY
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "38"
+    
+
+  attributes:
+    name: OHIO
+    abbr: OH
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "39"
+    
+
+  attributes:
+    name: OKLAHOMA
+    abbr: OK
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "40"
+    
+
+  attributes:
+    name: OREGON
+    abbr: OR
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "41"
+    
+
+  attributes:
+    name: PENNSYLVANIA
+    abbr: PA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "42"
+    
+
+  attributes:
+    name: PUERTO RICO
+    abbr: PR
+    country: UNITED STATES OF AMERICA
+    type: TERRITORY
+    id: "43"
+    
+
+  attributes:
+    name: RHODE ISLAND
+    abbr: RI
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "44"
+    
+
+  attributes:
+    name: SOUTH CAROLINA
+    abbr: SC
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "45"
+    
+
+  attributes:
+    name: SOUTH DAKOTA
+    abbr: SD
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "46"
+    
+
+  attributes:
+    name: TENNESSE
+    abbr: TN
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "47"
+    
+
+  attributes:
+    name: TEXAS
+    abbr: TX
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "48"
+    
+
+  attributes:
+    name: UTAH
+    abbr: UT
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "49"
+    
+
+  attributes:
+    name: VIRGINIA
+    abbr: VA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "50"
+    
+
+  attributes:
+    name: VIRGIN ISLANDS
+    abbr: VI
+    country: UNITED STATES OF AMERICA
+    type: TERRITORY
+    id: "51"
+    
+
+  attributes:
+    name: VERMONT
+    abbr: VT
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "52"
+    
+
+  attributes:
+    name: WASHINGTON
+    abbr: WA
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "53"
+    
+
+  attributes:
+    name: WISCONSIN
+    abbr: WI
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "54"
+    
+
+  attributes:
+    name: WEST VIRGINIA
+    abbr: WV
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "55"
+
+  attributes:
+    name: WYOMING
+    abbr: WY
+    country: UNITED STATES OF AMERICA
+    type: STATE
+    id: "56"
+    

@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @liquor_license.title %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @liquor_license.location %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @liquor_license.state %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @liquor_license.city %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @liquor_license.url %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @liquor_license.price %>
+</p>
+
+<p>
+  <b>Expiration date:</b>
+  <%= @liquor_license.expiration_date %>
+</p>
+
+<%= button_to "Pay through Paypal", :action => "paypal_request" , :id => @liquor_license.id%>
+
+<%= link_to 'Edit', edit_liquor_license_path(@liquor_license) %> |
+<%= link_to 'Back', url_for(:back) %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  real_name: MyString
+  street_address: MyString
+  city: MyString
+  state: MyString
+  post_code: 1
+
+two:
+  real_name: MyString
+  street_address: MyString
+  city: MyString
+  state: MyString
+  post_code: 1

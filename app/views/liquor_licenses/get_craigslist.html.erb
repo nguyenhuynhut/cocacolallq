@@ -1,0 +1,25 @@
+<h1>Listing Liquor Licenses from Craigslist</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Location</th>
+    <th>Price</th>
+    <th>Created At</th>
+    <th></th>
+  </tr>
+
+<% @liquor_licenses.each do |liquor_license| %>
+  <tr>
+    <td><%= link_to liquor_license.title, liquor_license.url %></td>
+    <td><%= liquor_license.location %></td>
+    <td><%= liquor_license.price != 0 ? liquor_license.price  : '' %> <%=  liquor_license.price != 0 ? '$':'' %></td>
+    <td><%= liquor_license.created_at.strftime('%m-%d-%Y') %></td>
+    <td><%= link_to 'Show', liquor_license %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Liquor license', new_liquor_license_path %>

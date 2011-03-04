@@ -1,0 +1,409 @@
+  ALASKA:
+    name: ALASKA
+    abbr: AK
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "1"
+  ALABAMA:
+    name: ALABAMA
+    abbr: AL
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "2"
+
+  ARKANSAS:   
+    name: ARKANSAS
+    abbr: AR
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "3"
+    
+
+
+  ARIZONA:      
+    name: ARIZONA
+    abbr: AZ
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "5"
+    
+
+  CALIFORNIA:   
+    name: CALIFORNIA
+    abbr: CA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "6"
+    
+  
+  COLORADO:   
+    name: COLORADO
+    abbr: CO
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "7"
+    
+  
+  CONNECTICUT:  
+    name: CONNECTICUT
+    abbr: CT
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "8"
+    
+  
+  DISTRICTOFCOLUMBIA:
+    name: DISTRICT OF COLUMBIA
+    abbr: DC
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "9"
+    
+  
+  DELAWARE:   
+    name: DELAWARE
+    abbr: DE
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "10"
+    
+  
+  FLORIDA: 
+    name: FLORIDA
+    abbr: FL
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "11"
+    
+  
+  GEORGIA: 
+    name: GEORGIA
+    abbr: GA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "12"
+    
+    
+  
+  HAWAII:  
+    name: HAWAII
+    abbr: HI
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "14"
+    
+  
+  IOWA:  
+    name: IOWA
+    abbr: IA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "15"
+    
+  
+  IDAHO:  
+    name: IDAHO
+    abbr: ID
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "16"
+    
+  
+  ILLINOIS:  
+    name: ILLINOIS
+    abbr: IL
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "17"
+    
+  
+  INDIANA:  
+    name: INDIANA
+    abbr: IN
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "18"
+    
+  
+  KANSAS:
+    name: KANSAS
+    abbr: KS
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "19"
+    
+  
+  KENTUCKY:  
+    name: KENTUCKY
+    abbr: KY
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "20"
+    
+  
+  LOUISIANA:  
+    name: LOUISIANA
+    abbr: LA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "21"
+    
+  
+  MASSACHUSETTS:  
+    name: MASSACHUSETTS
+    abbr: MA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "22"
+    
+  
+  MARYLAND:  
+    name: MARYLAND
+    abbr: MD
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "23"
+    
+  
+  MAINE:  
+    name: MAINE
+    abbr: ME
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "24"
+    
+
+  MICHIGAN:
+    name: MICHIGAN
+    abbr: MI
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "25"
+    
+  
+  MINNESOTA: 
+    name: MINNESOTA
+    abbr: MN
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "26"
+    
+  
+  MISSOURI: 
+    name: MISSOURI
+    abbr: MO
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "27"
+    
+  
+
+  
+  MISSISSIPPI: 
+    name: MISSISSIPPI
+    abbr: MS
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "29"
+    
+  
+  MONTANA: 
+    name: MONTANA
+    abbr: MT
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "30"
+    
+  
+  NORTHCAROLINA:  
+    name: NORTH CAROLINA
+    abbr: NC
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "31"
+    
+  
+  NORTHDAKOTA:  
+    name: NORTH DAKOTA
+    abbr: ND
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "32"
+    
+  
+  NEBRASKA:  
+    name: NEBRASKA
+    abbr: NE
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "33"
+    
+  
+  NEWHAMPSHIRE:
+    name: NEW HAMPSHIRE
+    abbr: NH
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "34"
+    
+  
+  NEWJERSEY: 
+    name: NEW JERSEY
+    abbr: NJ
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "35"
+    
+  
+  NEWMEXICO:  
+    name: NEW MEXICO
+    abbr: NM
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "36"
+    
+  
+  NEVADA: 
+    name: NEVADA
+    abbr: NV
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "37"
+    
+  
+  NEWYORK:  
+    name: NEW YORK
+    abbr: NY
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "38"
+    
+
+  OHIO: 
+    name: OHIO
+    abbr: OH
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "39"
+    
+
+  OKLAHOMA:  
+    name: OKLAHOMA
+    abbr: OK
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "40"
+    
+
+  OREGON: 
+    name: OREGON
+    abbr: OR
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "41"
+    
+
+  PENNSYLVANIA:  
+    name: PENNSYLVANIA
+    abbr: PA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "42"
+    
+  
+
+  RHODEISLAND: 
+    name: RHODE ISLAND
+    abbr: RI
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "44"
+    
+
+  SOUTHCAROLINA:
+    name: SOUTH CAROLINA
+    abbr: SC
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "45"
+    
+
+  SOUTHDAKOTA:  
+    name: SOUTH DAKOTA
+    abbr: SD
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "46"
+    
+
+  TENNESSE:  
+    name: TENNESSE
+    abbr: TN
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "47"
+    
+
+  TEXAS:  
+    name: TEXAS
+    abbr: TX
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "48"
+    
+
+  UTAH:  
+    name: UTAH
+    abbr: UT
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "49"
+    
+
+  VIRGINIA:  
+    name: VIRGINIA
+    abbr: VA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "50"
+    
+ 
+  VERMONT:
+    
+    name: VERMONT
+    abbr: VT
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "52"
+    
+
+  WASHINGTON:  
+    name: WASHINGTON
+    abbr: WA
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "53"
+    
+
+  WISCONSIN:  
+    name: WISCONSIN
+    abbr: WI
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "54"
+    
+
+  WESTVIRGINIA:
+    name: WEST VIRGINIA
+    abbr: WV
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "55"
+
+  WYOMING: 
+    name: WYOMING
+    abbr: WY
+    country: UNITED STATES OF AMERICA
+    kind: STATE
+    id: "56"
+    

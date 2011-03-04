@@ -1,0 +1,60 @@
+h1. GeoInfo
+
+This is a quick hack of a NWS dataset for all US Cities into a Rails database migration and YAML files for populating the database. Once you migrate and populate your database with this, you have pretty much all of the United States Census defined cities, and their states. This is including Guam, Puerto Rico, American Samoa and the Mariana Islands. [1] 
+
+h2. Usage
+
+bc. script/plugin install git://github.com/mettadore/geoinfo.git
+rake db:migrate:geoinfo # <= Creates geoinfo_cities and geoinfo_states db tables
+
+I haven't added a rake task to populate the database yet. But the YAML files are in vendor/plugins/geoinfo/lib/db/*.yml
+
+h3. Usage, non-plugin style
+
+The relevant files are all located in lib/db. Within this file there are two YAML files containing the data for cities and states. There is also a lib/db/migrate folder with the migration files. If you don't want all the plugin infrastructure and just want to get to the data, just grab the lib/db folder.
+
+h3. Naming scheme
+
+I've created this plugin with a certain naming scheme. The database tables are geoinfo_states and geoinfo_cities; likewise the models are GeoinfoState and GeoinfoCity. This is just to prevent name collision with someone else's project.
+
+h2. Needs and Issues
+
+* Humanize: All names are in ALL CAPS, so you might want to use the humanize method when pulling from the database.
+* Gem or Fixture?: I'm not sure this is the best distribution method, it might be better as a gem, but since it's pretty database needy, I'm distributing it this way for now.
+* Naming scheme: Perhaps it might be best to have a rake task that allows the user to choose a naming scheme, defaulting to "State" and "City."
+* Fixes: Please send me a note if something's wrong or missing.
+* Canada: I've included the provinces and territories of Canada, but don't have a database of city names- that would be nice
+* Postal Codes: I'd like to include the postal codes for each city, but don't have that database available to parse either.
+* Other countries: Perhaps starting with Mexico?
+
+h3. Source Notes
+
+I found the original dataset at the "NWS Geodata catalog":http://www.weather.gov/geodata/catalog/national/html/cities.htm and edited it slightly to remove records such as state name of "Montantna," etc.
+
+h2. Fork Me!!
+
+Please fork me and add to this as needed. Send me pull requests.
+
+h2. License
+
+h3. Copyright (c) 2010 John Metta
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+fn1. I haven't yet verified the completeness or accuracy of these records, this is currently a quick hack of what's immediately available on the "NWS Geodata catalog":http://www.weather.gov/geodata/catalog/national/html/cities.htm

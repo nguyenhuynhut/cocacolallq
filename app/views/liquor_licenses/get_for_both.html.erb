@@ -1,0 +1,40 @@
+<%= form_for :liquor_license, :html => { :method => :get} do |f| %>
+  
+  <%= f.label :title %>
+  <%= f.text_field :title, :value => params[:liquor_license] ? params[:liquor_license][:title] : '' %>
+  <%= f.label :state %>
+  <%= f.select(:state, GeoinfoState.find(:all).collect {|c| [ c.name, c.name ] }, :selected  => params[:liquor_license] ? params[:liquor_license][:state] : '') %> 
+  <%= f.label :city %>
+  <%= f.text_field :city, :value => params[:liquor_license] ? params[:liquor_license][:city] : '' %>
+  <%= f.label :price %>
+  <%= f.text_field :prce_min ,  :value => params[:liquor_license] ? params[:liquor_license][:prce_min] : ''%> 
+  <%= f.text_field :prce_max ,  :value => params[:liquor_license] ? params[:liquor_license][:prce_min] : ''%> 
+  <h1>Listing Liquor Licenses</h1>
+  
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>State</th>
+      <th>City</th>
+      <th>Url</th>
+      <th>Price</th>
+      <th>Expiration date</th>
+      <th></th>
+    </tr>
+  
+    <% @liquor_licenses.each do |liquor_license| %>
+      <tr>
+        <td><%= liquor_license.title %></td>
+        <td><%= liquor_license.state %></td>
+        <td><%= liquor_license.city %></td>
+        <td><%= liquor_license.url %></td>
+        <td><%= liquor_license.price != 0 ? liquor_license.price  : '' %> <%=  liquor_license.price != 0 ? '$':'' %></td>
+        <td><%= liquor_license.expiration_date %></td>
+        <td><%= link_to 'Show', liquor_license %></td>
+      </tr>
+    <% end %>
+  </table>
+  
+  <br />
+  <%= submit_tag("Search") %>
+<% end %>

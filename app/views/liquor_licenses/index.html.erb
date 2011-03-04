@@ -1,0 +1,31 @@
+<h1>Listing My Liquor Licenses</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>State</th>
+    <th>City</th>
+    <th>Price</th>
+    <th>Expiration date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @liquor_licenses.each do |liquor_license| %>
+    <tr>
+      <td><%= liquor_license.title %></td>
+      <td><%= liquor_license.state %></td>
+      <td><%= liquor_license.city %></td>
+      <td><%= liquor_license.price != 0 ? liquor_license.price  : '' %> <%=  liquor_license.price != 0 ? '$':'' %></td>
+      <td><%= liquor_license.expiration_date %></td>
+      <td><%= link_to 'Show', liquor_license %></td>
+      <td><%= link_to 'Edit', edit_liquor_license_path(liquor_license) %></td>
+      <td><%= link_to 'Destroy', liquor_license, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Liquor license', new_liquor_license_path %>

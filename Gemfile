@@ -6,7 +6,9 @@ gem 'rails', '3.0.4'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql'
-
+gem 'paypal_adaptive'
+gem 'nokogiri'
+gem 'jquery-rails'
 # Use unicorn as the web server
 # gem 'unicorn'
 

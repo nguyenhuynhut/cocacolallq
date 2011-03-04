@@ -1,4 +1,27 @@
 Liquorlicensehq::Application.routes.draw do
+  
+  resources :user_details
+
+  resources :liquor_license_auctions
+
+
+
+  get "home/index"
+  get "users/login"
+  get "users/logout"
+  get "users/private"
+  get "users/forgot"
+  get "users/sendmail"
+  get "liquor_licenses/paypal_request"
+  get "liquor_licenses/get_craigslist"
+  get "liquor_licenses/get_for_sale"
+  get "liquor_licenses/get_for_buy"
+  get "liquor_licenses/get_for_both"
+  resources :users
+    resources :liquor_licenses
+
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,11 +71,11 @@ Liquorlicensehq::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "home#index"
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  match ':controller(/:action(/:id(.:format)))'
 end
