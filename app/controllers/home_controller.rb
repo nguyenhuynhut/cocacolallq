@@ -1,3 +1,4 @@
+require 'geoinfo'
 class HomeController < ApplicationController
   sortable_attributes :title , :city_id, :state_id , :expiration_date, :price, :license_type_id
   def index
