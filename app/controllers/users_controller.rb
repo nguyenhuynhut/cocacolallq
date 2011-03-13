@@ -164,16 +164,8 @@ class UsersController < ApplicationController
     end
   end
   def import_data
-    states = File.open( "public/geoinfo_states.yml" )
-    YAML::load_documents( states ) { |doc|
-      state = GeoinfoState.new
-      state.name = doc['name']
-      state.abbr = doc['abbr']
-      state.country = doc['country']
-      state.kind = doc['type']
-      state.id = doc['id']
-      state.save()
-    }
+
+
     cities = File.open( "public/geoinfo_cities.yml" )
     YAML::load_documents( cities ) { |doc|
       city = GeoinfoCity.new
