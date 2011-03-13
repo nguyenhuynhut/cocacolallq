@@ -16,14 +16,35 @@
     <%= f.text_area :title, :size => "23x12" %>
   </div>
   <div class="field">
+    <%= f.label :License_type %><br />
+
+    <%= f.select(:license_type_id, LicenseType.find(:all, :order => 'license_code asc').collect {|c| [c.license_code + '-' + c.description, c.id ] }) %> 
+
+  </div>
+<script type="text/javascript" charset="utf-8">
+$(function(){
+  $("select#liquor_license_state_id").change(function(){
+    $.getJSON("/liquor_licenses/get_cities",{id: $(this).val(), ajax: 'true'}, function(j){
+            var options = '';
+      for (var i = 0; i < j.length; i++) {
+     
+        options += '<option value="' + j[i]['geoinfo_city']['id'] + '">' + j[i]['geoinfo_city']['name'] + '</option>';
+      }
+      $("select#liquor_license_city_id").html(options);
+
+    })
+  })
+})
+</script>
+  <div class="field">
     <%= f.label :state %><br />
 
-    <%= f.select(:state, GeoinfoState.find(:all).collect {|c| [ c.name, c.name ] }) %> 
+    <%= f.select(:state_id, GeoinfoState.find(:all, :order => 'name asc').collect {|c| [ c.name, c.id ] }) %> 
 
   </div>
   <div class="field">
     <%= f.label :city %><br />
-    <%= f.text_field :city %>
+    <%= f.select(:city_id, @cities_first ? @cities_first.collect {|c| [ c.name, c.id ]} : '', :selected => @selected_city ? @selected_city.id : '' ) %> 
   </div>
   <% if @valid_user.kind == 'Selling' %>
     <div class="field">
@@ -37,15 +58,15 @@
     <%= f.hidden_field :purpose , :value => 'Buy' %>
   <% end %>
   <% if @valid_user.kind == 'Both' %>
-<script type="text/javascript">
-  function disablePrice() {
-      $("#price_css").css('display', 'none');
-      $("#liquor_license_price").val("0");
-  }
-  function enablePrice() {
-      $("#price_css").css('display', 'block');
-  }
-</script>
+    <script type="text/javascript">
+      function disablePrice() {
+        $("#price_css").css('display', 'none');
+        $("#liquor_license_price").val("0");
+      }
+      function enablePrice() {
+        $("#price_css").css('display', 'block');
+      }
+    </script>
     <div class="field">
       <%= f.label :purpose %><br />
       <%= f.radio_button "purpose", "Sell" , :onclick => 'enablePrice();'%>Sell

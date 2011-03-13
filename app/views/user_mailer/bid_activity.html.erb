@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p> License Title : <%= @bid_activity.liquor_license_auction.liquor_license.title %> <p/>
+    <p> State : <%=  @bid_activity.liquor_license_auction.liquor_license.state_id ?  GeoinfoState.find(@bid_activity.liquor_license_auction.liquor_license.state_id).name : ''%> <p/>
+    <p>  City : <%=  @bid_activity.liquor_license_auction.liquor_license.city_id ? GeoinfoCity.find(@bid_activity.liquor_license_auction.liquor_license.city_id).name : ''  %><p/>
+    <p> License Type : <%= @bid_activity.liquor_license_auction.liquor_license.license_type ? @bid_activity.liquor_license_auction.liquor_license.license_type.license_code + '-' + @bid_activity.liquor_license_auction.liquor_license.license_type.description : '' %><p/>
+    <p> Price Higher :  <%= @bid_activity.liquor_license_auction.price %>  <p/>
+    <p> Your Price :  <%= LiquorLicenseAuction.where(:liquor_license_id  => @bid_activity.liquor_license_auction.liquor_license.id, :bidder_id => @bid_activity.user_id) ? LiquorLicenseAuction.where(:liquor_license_id  => @bid_activity.liquor_license_auction.liquor_license.id, :bidder_id => @bid_activity.user_id).first.price : '' %>   <p/>
+    <%
+    @bid_activity.status = true
+    @bid_activity.save()
+  %>
+
+
+
+  </body>
+</html>

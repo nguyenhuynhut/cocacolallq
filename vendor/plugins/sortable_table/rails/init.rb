@@ -1,0 +1,2 @@
+require "sortable_table"
+

@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>License Type:</b>
+  <%= @criteria.license_type ? @criteria.license_type.license_code + '-' + @criteria.license_type.description : '' %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @criteria.state_id ?  GeoinfoState.find(@criteria.state_id).name : '' %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @criteria.city_id ? GeoinfoCity.find(@criteria.city_id).name : ''  %>
+</p>
+
+
+<%= link_to 'Edit', edit_criteria_path(@criteria) %> |
+<%= link_to 'Back', criterias_path %>

@@ -7,10 +7,12 @@ gem 'rails', '3.0.4'
 
 gem 'mysql'
 gem 'paypal_adaptive'
-gem 'nokogiri' , '=1.4.1'
+gem 'nokogiri' 
 gem 'jquery-rails'
 gem 'json_pure'
-
+gem 'mini_magick'
+gem 'will_paginate'
+gem "rufus-scheduler"
 # Use unicorn as the web server
 # gem 'unicorn'
 

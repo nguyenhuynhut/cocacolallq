@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+
+    <p>
+      My Username : <%= @user.username %>
+    </p>
+    <p>
+      I want to bid your liquor license : <%= @liquor_license.title %>
+    </p>
+    <p>
+      Price : <%= @price %>$
+    </p>
+    <p>
+      <%= @message %>
+    </p>
+    <p>
+      Best Regards
+    </p 
+    <% if @user.user_detail  %>
+      <% if @user.user_detail.real_name  %>
+        <p>
+          <%= @user.user_detail.real_name  %>
+        </p>
+      <% end %>
+    <% end %>
+  </body>
+</html>

@@ -4,25 +4,19 @@
   <b>Title:</b>
   <%= @liquor_license.title %>
 </p>
-
 <p>
-  <b>Location:</b>
-  <%= @liquor_license.location %>
+  <b>License Type:</b>
+  <%= @liquor_license.license_type ? @liquor_license.license_type.license_code + '-' + @liquor_license.license_type.description : '' %>
 </p>
 
 <p>
   <b>State:</b>
-  <%= @liquor_license.state %>
+  <%= @liquor_license.state_id ?  GeoinfoState.find(@liquor_license.state_id).name : '' %>
 </p>
 
 <p>
   <b>City:</b>
-  <%= @liquor_license.city %>
-</p>
-
-<p>
-  <b>Url:</b>
-  <%= @liquor_license.url %>
+  <%= @liquor_license.city_id ? GeoinfoCity.find(@liquor_license.city_id).name : ''  %>
 </p>
 
 <p>
@@ -34,8 +28,29 @@
   <b>Expiration date:</b>
   <%= @liquor_license.expiration_date %>
 </p>
+<table>
+  <tr>
+    
+    <th>Email:</th>
+    <th>Price</th>
+   
+    <th></th>
+  </tr>
 
-<%= button_to "Pay through Paypal", :action => "paypal_request" , :id => @liquor_license.id%>
+<% @liquor_license_auctions.each do |liquor_license_auction| %>
+  <tr>
+    <td><%= User.find(liquor_license_auction.bidder_id).email %></td>
+    <td>$ <%= liquor_license_auction.price %></td>
+    <td><a href="http://www.escrow.com/partner.asp?pid=6079" onclick="accept('<%= liquor_license_auction.id  %> ');"><img src="https://www.escrow.com/affiliate/banner-88x31.gif" width="88" height="31" alt="Escrow.com: Buy or Sell Online Without the Fear of Fraud" border="0"></a></td>
+  </tr
+    <script type="text/javascript" charset="utf-8">
+     function accept(id) {
+        $.getJSON("/liquor_licenses/accept",{id: id, ajax: 'true'}, function(j){
+        })
+     }
 
-<%= link_to 'Edit', edit_liquor_license_path(@liquor_license) %> |
+  </script>
+<% end %>
+</table>
+
 <%= link_to 'Back', url_for(:back) %>

@@ -18,3 +18,7 @@ API Password: 	1299038605
 Signature: 	A3lhtZtmirprDWtDwrLJT2IX2vWbAJYtr0v-d-rU-dLdD8yohGKqzYYO 
 299046771
 http://ganeshprasadsr.blogspot.com/2010/10/installing-nokogiri-for-rails-3-app-on.html
+http://www.dotweekly.com/better-option-for-domain-sales-then-a-paypal-button
+<% if @liquor_license.price != 0 and @liquor_license.price != nil %>
+<%= button_to "Pay through Paypal", :action => "paypal_request" , :id => @liquor_license.id%>
+<% end %>

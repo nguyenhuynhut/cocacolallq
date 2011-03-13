@@ -10,5 +10,10 @@ class LiquorLicense < ActiveRecord::Base
   end
   belongs_to :user , :class_name => 'User'
   belongs_to :buyer , :class_name => 'User'
-  has_many :liquor_license_auctions
+  belongs_to :license_type
+  has_many :liquor_license_auctions, :dependent => :destroy
+  has_many :criteria_activities
+  cattr_reader :per_page
+  @@per_page = 30
+  
 end

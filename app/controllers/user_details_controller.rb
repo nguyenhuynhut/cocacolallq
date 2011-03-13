@@ -35,6 +35,13 @@ class UserDetailsController < ApplicationController
   # GET /user_details/1/edit
   def edit
     @user_detail = UserDetail.find(params[:id])
+        @state_first = GeoinfoState.find(@user_detail.state_id)
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if @user_detail.city_id
+      @selected_city = GeoinfoCity.find(@user_detail.city_id)
+
+    end
   end
 
   # POST /user_details
@@ -45,8 +52,21 @@ class UserDetailsController < ApplicationController
     @user_detail.user_id = @valid_user.id
     @valid_user.user_detail = @user_detail
     @valid_user.save
+    @state_first = GeoinfoState.find(:first, :order => 'name asc')
+    if params[:user_detail][:state_id]
+      @state_first = GeoinfoState.find(params[:user_detail][:state_id])
+    end
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if params[:user_detail][:city_id] 
+      @selected_city = GeoinfoCity.where(:id => params[:user_detail][:city_id]).first
+
+    end
     respond_to do |format|
       if @user_detail.save
+        if params[:logo] then
+          @user_detail.savelogo(params[:logo])
+        end
         format.html { redirect_to(@user_detail, :notice => 'User detail was successfully created.') }
         format.xml  { render :xml => @user_detail, :status => :created, :location => @user_detail }
       else
@@ -63,6 +83,9 @@ class UserDetailsController < ApplicationController
 
     respond_to do |format|
       if @user_detail.update_attributes(params[:user_detail])
+        if params[:logo] then
+          @user_detail.savelogo(params[:logo])
+        end
         format.html { redirect_to(@user_detail, :notice => 'User detail was successfully updated.') }
         format.xml  { head :ok }
       else

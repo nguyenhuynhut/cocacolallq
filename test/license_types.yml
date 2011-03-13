@@ -1,0 +1,278 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+01:
+  license_code: "01"
+  description: 	Beer Manufacturer
+
+02:
+  license_code:  "02"
+  description:  Winegrower
+03:
+  license_code: "03"
+  description: Brandy Manufacturer
+
+04:
+  license_code: "04"
+  description: Distilled Spirits Manufacturer
+    
+05:
+  license_code: "05"
+  description: Distilled Spirits Manufacturer's Agent
+
+06:
+  license_code: "06"
+  description: 	Still
+07:
+  license_code: "07"
+  description: Rectifier
+
+08:
+  license_code: "08"
+  description:  Wine Rectifier
+    
+09:
+  license_code: "09"
+  description: Beer and Wine Importer
+
+10:
+  license_code: 10
+  description: 	Beer and Wine Importer's General
+11:
+  license_code: 11
+  description: 	Brandy Importer
+
+12:
+  license_code: 12
+  description: 	Distilled Spirits Importer
+
+13:
+  license_code: 13
+  description: Distilled Spirits Importer's General
+
+14:
+  license_code: 14
+  description: Public Warehouse
+15:
+  license_code: 15
+  description: 	Customs Broker
+
+16:
+  license_code: 16
+  description: Wine Broker
+17:
+  license_code: 17
+  description: Beer and Wine Wholesaler
+
+18:
+  license_code: 18
+  description: Distilled Spirits Wholesaler
+19:
+  license_code: 19
+  description: 	Industrial Alcohol Dealer
+
+20:
+  license_code: 20
+  description: Off-Sale Beer and Wine
+21:
+  license_code: 21
+  description: 	Off-Sale General
+
+22:
+  license_code: 22
+  description: 	Wine Blender
+23:
+  license_code: 23
+  description: 	Small Beer Manufacturer
+
+24:
+  license_code: 24
+  description: 	Distilled Spirits Rectifier's General
+    
+25:
+  license_code: 25
+  description: 	California Brandy Wholesaler
+
+26:
+  license_code: 26
+  description: 	Out-of-State Beer Manufacturer's Certificate
+27:
+  license_code: 27
+  description: 	California Winegrowers Agent
+
+28:
+  license_code: 28
+  description: 	Out-of-State Distilled Spirits Shipper's Certificate
+    
+29:
+  license_code: 29
+  description: 	Winegrape Grower's Certificate 
+
+30:
+  license_code: 30
+  description: 	Temporary Retail Permit (Only in conjunction with a Person to Person transfer)
+31:
+  license_code: 31
+  description:  Special Daily License (Temporary Beer or Wine)
+
+32:
+  license_code: 32
+  description: 	Daily Beer
+
+33:
+  license_code: 33
+  description: 	Daily Wine
+
+34:
+  license_code: 34
+  description: Daily Beer and Wine
+37:
+  license_code: 37
+  description:  Daily On-Sale General
+
+40:
+  license_code: 40
+  description: 	On-Sale Beer
+41:
+  license_code: 41
+  description: On-Sale Beer and Wine for Bona Fide Public Eating Place
+
+42:
+  license_code: 42
+  description: 	On-Sale Beer and Wine for Public Premises
+43:
+  license_code: 43
+  description: On-Sale Beer and Wine for Train
+
+44 :
+  license_code: 44
+  description: On-Sale Beer for Fishing Party Boat
+
+45:
+  license_code: 45
+  description: On-Sale Beer and Wine for Boat
+
+46:
+  license_code: 46
+  description: On-Sale Beer and Wine for Airplane
+47:
+  license_code: 47
+  description: On-Sale General for Bona Fide Public Eating Place
+
+48:
+  license_code: 48
+  description: 	On-Sale General for Public Premises
+    
+49:
+  license_code: 49
+  description: 	On-Sale General for Seasonal Business
+
+50:
+  license_code: 50
+  description: On-Sale General for Club
+51:
+  license_code: 51
+  description: Club
+
+52:
+  license_code: 52
+  description: Veterans' Club
+    
+53:
+  license_code: 53
+  description: 	On-Sale General for Train
+
+54:
+  license_code: 54
+  description: On-Sale General for Boat
+55:
+  license_code: 55
+  description: On-Sale General for Airplane
+
+56:
+  license_code: 56
+  description: On-Sale General for Vessel of more than 1,000 tons burden
+
+57:
+  license_code: 57
+  description: Special On-Sale General
+
+58:
+  license_code: 58
+  description: Caterer's Permit
+59:
+  license_code: 59
+  description: On-Sale Beer and Wine for Seasonal Business
+
+60:
+  license_code: 60
+  description: On-Sale Beer for Seasonal Business
+61:
+  license_code: 61
+  description: 	On-Sale Beer for Public Premises
+
+62:
+  license_code: 62
+  description:  On-Sale General Bona Fide Public Eating Place Intermittent Dockside Vessel
+63:
+  license_code: 63
+  description: 	On-Sale Beer and Wine for Hospital
+
+64:
+  license_code: 64
+  description: 	Special On-Sale General Theatre
+65:
+  license_code: 65
+  description: Special On-Sale Beer and Wine, Symphony
+
+66:
+  license_code: 66
+  description: Controlled Access Cabinet Permit
+67:
+  license_code: 67
+  description: 	Bed and Breakfast Inn
+
+68:
+  license_code: 68
+  description: Portable Bar
+    
+69:
+  license_code: 69
+  description: 	Special On-Sale Beer & Wine Theater
+
+70:
+  license_code: 70
+  description: 	On-Sale General Restrictive Service
+75:
+  license_code: 75
+  description: 	On-Sale General Brew-Pub
+
+76:
+  license_code: 76
+  description: 	On-Sale General Maritime Museum Association
+    
+77:
+  license_code: 77
+  description: Event Permit
+
+78:
+  license_code: 78
+  description: 	On Sale General Wine, Food and Art Cultural Museum
+79:
+  license_code: 79
+  description: 	Certified Farmers' Market Sales Permit
+
+80:
+  license_code: 80
+  description: 	Special On-Sale General Bed and Breakfast Inn
+
+81:
+  license_code: 81
+  description: Wine Sales Event Permit
+
+82:
+  license_code: 82
+  description: 	Direct Shippers Permit
+83:
+  license_code: 83
+  description: 	On-Sale General Caterer's License
+

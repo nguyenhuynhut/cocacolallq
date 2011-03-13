@@ -1,4 +1,4 @@
-<%= form_for(@user_detail) do |f| %>
+<%= form_for(@user_detail, :html => { :multipart => true}) do |f| %>
   <% if @user_detail.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user_detail.errors.count, "error") %> prohibited this user_detail from being saved:</h2>
@@ -19,13 +19,28 @@
     <%= f.label :street_address %><br />
     <%= f.text_field :street_address %>
   </div>
-  <div class="field">
-    <%= f.label :city %><br />
-    <%= f.text_field :city %>
-  </div>
+<script type="text/javascript" charset="utf-8">
+$(function(){
+  $("select#user_detail_state_id").change(function(){
+    $.getJSON("/liquor_licenses/get_cities",{id: $(this).val(), ajax: 'true'}, function(j){
+            var options = '';
+      for (var i = 0; i < j.length; i++) {
+     
+        options += '<option value="' + j[i]['geoinfo_city']['id'] + '">' + j[i]['geoinfo_city']['name'] + '</option>';
+      }
+      $("select#user_detail_city_id").html(options);
+
+    })
+  })
+})
+</script>
   <div class="field">
     <%= f.label :state %><br />
-    <%= f.text_field :state %>
+    <%= f.select(:state_id, GeoinfoState.find(:all, :order => 'name asc').collect {|c| [ c.name, c.id ] }) %> 
+  </div>
+  <div class="field">
+    <%= f.label :city %><br />
+   <%= f.select(:city_id, @cities_first ? @cities_first.collect {|c| [ c.name, c.id ]} : '', :selected => @selected_city ? @selected_city.id : '' ) %> 
   </div>
   <div class="field">
     <%= f.label :post_code %><br />
@@ -35,6 +50,23 @@
     <%= f.label :paypal_account %><br />
     <%= f.text_field :paypal_account %>
   </div>
+<p>
+  <%= image_tag @user_detail.avatar ? @user_detail.avatar : 'logo.jpg', :size => "60x60" %>
+</p>
+  <p>
+    Logo<br />
+    <%= file_field_tag 'logo' %>
+  </p>
+  <div class="field">
+    <%= f.label :birth_date %><br />
+    <%= f.date_select :birth_date %>
+  </div>
+   <div class="field">
+      <%= f.label :gender %><br />
+      <%= f.radio_button "gender", "Male" %>Male
+      <%= f.radio_button "gender", "Female" %>Female
+      <%= f.radio_button "gender", "" %>Rather not say
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,0 +1,10 @@
+My Username : <%= @user.username %>
+I want to bid your liquor license : <%= @liquor_license.title %>
+Price : <%= @price %>$
+<%= @message %>
+Best Regards
+<% if @user.user_detail  %>
+  <% if @user.user_detail.real_name  %>
+<%= @user.user_detail.real_name  %>
+  <% end %>
+<% end %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  liquor_license_id: 1
+  user_id: 1
+  expiration_date: 2011-03-12
+  status: false
+
+two:
+  liquor_license_id: 1
+  user_id: 1
+  expiration_date: 2011-03-12
+  status: false

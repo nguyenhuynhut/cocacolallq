@@ -1,22 +1,58 @@
 require 'geoinfo'
 require 'nokogiri'
 require 'open-uri'
+require "sortable_table"
 class LiquorLicensesController < ApplicationController
   # GET /liquor_licenses
   # GET /liquor_licenses.xml
+  sortable_attributes :title , :city_id, :state_id , :expiration_date, :price, :license_type_id
   def index
-    @liquor_licenses = LiquorLicense.joins(:user).where("users.username != :username", {:username => session[:user_id]})
+    result = LiquorLicense.joins(:user).where("users.username != :username", {:username => session[:user_id]})
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 1)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @liquor_licenses }
     end
   end
-
+  # GET /liquor_licenses/1
+  # GET /liquor_licenses/1.xml
+  def view
+    @liquor_license = LiquorLicense.find(params[:id])
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @liquor_license_auction =LiquorLicenseAuction.where(:liquor_license_id => params[:id], :bidder_id =>  @valid_user.id).first
+    if params[:auction] and params[:auction][:bid] != '' and params[:auction][:bid].to_f > 0
+      recipient = @liquor_license.user.email
+      subject = "Bid Your Liquor License"
+      message = params[:auction][:message]
+      UserMailer.bid(recipient, subject, @valid_user, message, @liquor_license, params[:auction][:bid]).deliver
+      if @liquor_license_auction != nil
+        
+        @liquor_license_auction.price = params[:auction][:bid].to_f
+        @liquor_license_auction.status = false
+        @liquor_license_auction.save()
+      else
+        logger.info 'abc'
+        @liquor_license_auction = LiquorLicenseAuction.new
+        @liquor_license_auction.price = params[:auction][:bid].to_f
+        @liquor_license_auction.liquor_license = @liquor_license
+        @liquor_license_auction.status = false
+        @liquor_license_auction.bidder = @valid_user
+        @liquor_license_auction.user = @liquor_license.user
+        @liquor_license_auction.save()
+        
+      end
+    end
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @liquor_license }
+    end
+  end
   # GET /liquor_licenses/1
   # GET /liquor_licenses/1.xml
   def show
     @liquor_license = LiquorLicense.find(params[:id])
-
+    @liquor_license_auctions = LiquorLicenseAuction.where(:liquor_License_id  => params[:id]).find :all, :order => 'price desc'
+    logger.info @liquor_license_auctions
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @liquor_license }
@@ -38,6 +74,13 @@ class LiquorLicensesController < ApplicationController
   def edit
     @liquor_license = LiquorLicense.find(params[:id])
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @state_first = GeoinfoState.find(@liquor_license.state_id)
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if @liquor_license.city_id
+      @selected_city = GeoinfoCity.find(@liquor_license.city_id)
+
+    end
   end
 
   # POST /liquor_licenses
@@ -45,7 +88,16 @@ class LiquorLicensesController < ApplicationController
   def create
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     @liquor_license = @valid_user.liquor_licenses.create(params[:liquor_license])
+    @state_first = GeoinfoState.find(:first, :order => 'name asc')
+    if params[:liquor_license][:state_id]
+      @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
+    end
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if params[:liquor_license][:city_id] 
+      @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
 
+    end
     respond_to do |format|
       if @liquor_license.save
         format.html { redirect_to(@liquor_license, :notice => 'Liquor license was successfully created.') }
@@ -109,136 +161,167 @@ class LiquorLicensesController < ApplicationController
     end
 
   end
-  def get_craigslist
-    # Get a Nokogiri::HTML:Document for the page we’re interested in...
-    
-    doc = Nokogiri::HTML(open('http://detroit.craigslist.org/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
-    doc.xpath('//p[@class="row"]').each do |link|
-      index = link.content.index('-') - 1
-      title = ''
-      url = ''
-      location = ''
-      price = 0
-      logger.info link.content[10..index]
-      created_at = Date.parse(link.content[10..index] + Date.today().year().to_s )
-      #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
-      if link.at('a')
-        index = link.at('a').text.index('-') - 1
-        title = link.at('a').text[0, index]
-        url = link.at('a')['href']
-      end
-      if link.at('font')
-        begin_index = link.at('font').text.index('(') + 1
-        end_index = link.at('font').text.index(')') - 1
-        location = link.at('font').text[begin_index..end_index]
-      end
-      if link.content.split('$').length == 2
-        index = link.content.split('$')[1].index(' ') - 1
-        price = link.content.split('$')[1][0..index].to_i
-      end
-      liquor_license = LiquorLicense.where(:title => title , :url => url , :location => location , :price => price).first
-      if liquor_license == nil
-        liquor_license = LiquorLicense.new(:title => title , :url => url , :location => location , :price => price, :from_host => 'craigslist', :purpose => 'None', :created_at => created_at , :updated_at => created_at)
-        liquor_license.save
-      end
-    end
-    @liquor_licenses = LiquorLicense.where(:from_host => 'craigslist')
-  end
+
   def get_for_sale
     query_string = ""
     conditions = {}
+    @state_first = GeoinfoState.find(:first, :order => 'name asc')
+   
+    logger.info 'aaaa'
+    if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+      @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
+    end
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if params[:liquor_license] and params[:liquor_license][:city_id] 
+      @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
+    end
+ 
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
         logger.info 'aa'
-        query_string = " AND title LIKE :title"  
-        conditions[:title] = params[:liquor_license][:title]
+        query_string = query_string + " AND title LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
       end
-      if params[:liquor_license][:state] != nil and params[:liquor_license][:state] != ''
-        query_string = " AND state = :state"  
-        conditions[:state] = params[:liquor_license][:state]
+      if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+        query_string = query_string + " AND state_id = :state_id"  
+        conditions[:state_id] = params[:liquor_license][:state_id]
       end
-      if params[:liquor_license][:city] != nil and params[:liquor_license][:city] != ''
-        query_string = " AND city LIKE :city"  
-        conditions[:city] = params[:liquor_license][:city]
+      if params[:liquor_license][:city_id] != nil and params[:liquor_license][:city_id] != ''
+        query_string = query_string + " AND city_id = :city_id"  
+        conditions[:city_id] = params[:liquor_license][:city_id]
       end
-
+      if params[:liquor_license][:license_type_id] != nil and params[:liquor_license][:license_type_id] != ''
+        logger.info 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        query_string = query_string + " AND license_type_id = :license_type_id"  
+        conditions[:license_type_id] = params[:liquor_license][:license_type_id]
+      end
     end
     conditions[:today] = Date.today()
     conditions[:purpose] = 'Buy'
     conditions[:username] = session[:user_id]
- 
-    
-    @liquor_licenses = LiquorLicense.joins(:user).where("from_host IS NULL AND expiration_date >= :today AND purpose = :purpose AND users.username != :username" + query_string, conditions)
-    logger.info @liquor_licenses
+    result = LiquorLicense.joins(:user).where("from_host IS NULL AND expiration_date >= :today AND purpose = :purpose AND users.username != :username" + query_string, conditions).find :all, :order => sort_order
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 1)
   end
   def get_for_buy
       
     query_string = ""
     conditions = {}
-    logger.info params[:liquor_license]
+    @state_first = GeoinfoState.find(:first, :order => 'name asc')
+       
+    if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+      @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
+    end
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if params[:liquor_license] and params[:liquor_license][:city_id] 
+      @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
+    end
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
-        query_string = " AND title LIKE :title"  
-        conditions[:title] = params[:liquor_license][:title]
+        logger.info 'ba gia'
+        query_string = query_string + " AND title LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
       end
-      if params[:liquor_license][:state] != nil and params[:liquor_license][:state] != ''
-        query_string = " AND state = :state"  
-        conditions[:state] = params[:liquor_license][:state]
+      if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+        query_string = query_string + " AND state_id = :state_id"  
+        conditions[:state_id] = params[:liquor_license][:state_id]
       end
-      if params[:liquor_license][:city] != nil and params[:liquor_license][:city] != ''
-        query_string = " AND city LIKE :city"  
-        conditions[:city] = params[:liquor_license][:city]
+      if params[:liquor_license][:city_id] != nil and params[:liquor_license][:city_id] != ''
+        query_string = query_string + " AND city_id = :city_id"  
+        conditions[:city_id] = params[:liquor_license][:city_id]
       end
       logger.info params[:liquor_license][:price_min]
       if params[:liquor_license][:price_min] != nil and params[:liquor_license][:price_min] != ''
         logger.info 'b'
-        query_string = " AND price >= :price_min"  
+        query_string = query_string + " AND price >= :price_min"  
         conditions[:price_min] = params[:liquor_license][:price_min]
       end
       if params[:liquor_license][:price_max] != nil and params[:liquor_license][:price_max] != ''
-        query_string = " AND price <= :price_max"  
+        query_string = query_string + " AND price <= :price_max"  
         conditions[:price_max] = params[:liquor_license][:price_max]
+      end
+      if params[:liquor_license][:license_type_id] != nil and params[:liquor_license][:license_type_id] != ''
+ 
+        query_string = query_string + " AND license_type_id = :license_type_id"  
+        conditions[:license_type_id] = params[:liquor_license][:license_type_id]
       end
     end
     conditions[:today] = Date.today()
     conditions[:purpose] = 'Sell'
-    conditions[:username] = session[:user_id]
- 
-    
-    @liquor_licenses = LiquorLicense.joins(:user).where("from_host IS NULL AND expiration_date >= :today AND purpose = :purpose AND users.username != :username" + query_string, conditions)
-    logger.info @liquor_licenses
-    logger.info @liquor_licenses
+     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    conditions[:user_id] = @valid_user.id
+    result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND purpose = :purpose AND (user_id != :user_id or user_id IS NULL)" + query_string, conditions).find :all, :order => sort_order
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 30)
   end
   def get_for_both
     query_string = ""
     conditions = {}
+    @state_first = GeoinfoState.find(:first, :order => 'name asc')
+    logger.info params[:liquor_license] 
+    if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+      @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
+    end
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if params[:liquor_license] and params[:liquor_license][:city_id] 
+      @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
+    end
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
-        query_string = " AND title LIKE :title"  
-        conditions[:title] = params[:liquor_license][:title]
+        query_string = query_string + " AND title LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
       end
-      if params[:liquor_license][:state] != nil and params[:liquor_license][:state] != ''
-        query_string = " AND state = :state"  
-        conditions[:state] = params[:liquor_license][:state]
+      if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
+        query_string = query_string + " AND state_id = :state_id"  
+        conditions[:state_id] = params[:liquor_license][:state_id]
       end
-      if params[:liquor_license][:city] != nil and params[:liquor_license][:city] != ''
-        query_string = " AND city LIKE :city"  
-        conditions[:city] = params[:liquor_license][:city]
+      if params[:liquor_license][:city_id] != nil and params[:liquor_license][:city_id] != ''
+        query_string = query_string + " AND city_id = :city_id"  
+        conditions[:city_id] = params[:liquor_license][:city_id]
       end
       if params[:liquor_license][:price_min] != nil and params[:liquor_license][:price_min] != ''
-        query_string = " AND :price >= :price"  
-        conditions[:price] = params[:liquor_license][:price_min].to_i
+        query_string = query_string + " AND price >= :price_min"  
+        conditions[:price_min] = params[:liquor_license][:price_min].to_i
       end
       if params[:liquor_license][:price_max] != nil and params[:liquor_license][:price_max] != ''
-        query_string = " AND price <= :price"  
-        conditions[:price] = params[:liquor_license][:price_max].to_i
+        query_string = query_string + " AND price <= :price_max"  
+        conditions[:price_max] = params[:liquor_license][:price_max].to_i
+      end
+      if params[:liquor_license][:license_type_id] != nil and params[:liquor_license][:license_type_id] != ''
+ 
+        query_string = query_string + " AND license_type_id = :license_type_id"  
+        conditions[:license_type_id] = params[:liquor_license][:license_type_id]
       end
     end
     conditions[:today] = Date.today()
-    conditions[:username] = session[:user_id]
- 
-    
-    @liquor_licenses = LiquorLicense.joins(:user).where("from_host IS NULL AND expiration_date >= :today AND users.username != :username" + query_string, conditions)
-    logger.info @liquor_licenses
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    conditions[:user_id] = @valid_user.id
+    result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND (user_id != :user_id or user_id IS NULL)" + query_string, conditions).find :all, :order => sort_order
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 1)
+  end
+  def get_cities
+    cities = []
+    cities = GeoinfoCity.find(:all, :conditions =>{:state_id => params[:id]},  :order => 'name asc')
+    logger.info 'ba giaaaaaa'
+    logger.info params[:id]
+    logger.info render :json => cities
+  end
+  def get_my_auction
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @liquor_license_auctions = []
+    if @valid_user
+    result = LiquorLicenseAuction.where(:bidder_id =>  @valid_user.id)
+    @liquor_license_auctions = result.paginate(:page => params[:page] ,:per_page => 1)
+    end
+  end
+  def accept
+    liquor_license_auction = []
+    logger.info params
+    liquor_license_auction = LiquorLicenseAuction.find(params[:id])
+    liquor_license_auction.status = true
+    liquor_license_auction.save
+    logger.info 'aaaaafffffffffffffffffffffffff'
+    render :json => liquor_license_auction
   end
 end

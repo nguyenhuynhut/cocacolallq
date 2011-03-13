@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+
+    <p>
+      My Username : <%= @user.username %>
+
+    </p>
+    <% if @user.user_detail  %>
+      <% if @user.user_detail.real_name  %>
+        <p>
+          My Real Name : <%= @user.user_detail.real_name %>
+        </p>
+      <% end %>
+    <% end %>
+    <% if @user.user_detail  %>
+      <% if @user.user_detail.state  %>
+        <p>
+          State : <%= @user.user_detail.state %>
+        </p>
+      <% end %>
+    <% end %>
+    <% if @user.user_detail  %>
+      <% if @user.user_detail.city  %>
+        <p>
+          City : <%= @user.user_detail.city %>
+        </p>
+      <% end %>
+    <% end %>
+    <p>
+      <%= @message %>
+    </p>
+    <p>
+      Best Regards
+    </p 
+    <% if @user.user_detail  %>
+      <% if @user.user_detail.real_name  %>
+        <p>
+          <%= @user.user_detail.real_name  %>
+        </p>
+      <% end %>
+    <% end %>
+  </body>
+</html>

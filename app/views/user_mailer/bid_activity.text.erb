@@ -1,0 +1,10 @@
+License Title : <%= @bid_activity.liquor_license_auction.liquor_license.title %> 
+State : <%=  @bid_activity.liquor_license_auction.liquor_license.state_id ?  GeoinfoState.find(@bid_activity.liquor_license_auction.liquor_license.state_id).name : ''%>
+City : <%=  @bid_activity.liquor_license_auction.liquor_license.city_id ? GeoinfoCity.find(@bid_activity.liquor_license_auction.liquor_license.city_id).name : ''  %>
+License Type : <%= @bid_activity.liquor_license_auction.liquor_license.license_type ? @bid_activity.liquor_license_auction.liquor_license.license_type.license_code + '-' + @bid_activity.liquor_license_auction.liquor_license.license_type.description : '' %>
+Price Higher :  <%= @bid_activity.liquor_license_auction.price %>  <p/>
+Your Price :  <%= LiquorLicenseAuction.where(:liquor_license_id  => @bid_activity.liquor_license_auction.liquor_license.id, :bidder_id => @bid_activity.user_id).first ? LiquorLicenseAuction.where(:liquor_license_id  => @bid_activity.liquor_license_auction.liquor_license.id, :bidder_id => @bid_activity.user_id).first.price : '' %>  
+<%
+@bid_activity.status = true
+@bid_activity.save()
+%>

@@ -1,6 +1,6 @@
 <!--#displays hello (username)-->
 hello <strong><%=session[:user_id]%></strong>.
-
+<%= image_tag @valid_user.user_detail ? (@valid_user.user_detail.avatar ? @valid_user.user_detail.avatar : 'logo.jpg')  : 'logo.jpg', :size => "60x60" %>
 <!--#creates logout link, when the link is clicked, the controller is User and the method executed will be logout.-->
 <%= link_to "logout",:controller => "users", :action => "logout" %> | <%= link_to 'Setting User', edit_user_path(@valid_user) %>
 | <%= link_to 'New Liquor license', new_liquor_license_path %> | 
@@ -12,15 +12,23 @@ hello <strong><%=session[:user_id]%></strong>.
 |  <%= link_to 'Liquor Licenses from Craigslist', :controller => "liquor_licenses", :action => "get_craigslist"%>
 | 
 <% if @valid_user.kind =="Selling" %>
-  <%= link_to 'Liquor Licenses for Sale', :controller => "liquor_licenses", :action => "get_for_sale"%>
+  <%= link_to 'Liquor Licenses for Seller', :controller => "liquor_licenses", :action => "get_for_sale"%>
 <% end %>
 <% if @valid_user.kind =="Buying" %>
-  <%= link_to 'Liquor Licenses for Buy', :controller => "liquor_licenses", :action => "get_for_buy"%>
+  <%= link_to 'Liquor Licenses for Buyer', :controller => "liquor_licenses", :action => "get_for_buy"%>
 <% end %>
 <% if @valid_user.kind =="Both" %>
   <%= link_to 'Liquor Licenses', :controller => "liquor_licenses", :action => "get_for_both"%>
 <% end %>
 |
 <%= link_to 'My Liquor Licenses', liquor_licenses_path %>
+|
+<%if @valid_user.criteria %>
+  <%= link_to 'My Criteria', edit_criteria_path(@valid_user.criteria) %>
+<% else %>
+  <%= link_to 'My Criteria', new_criteria_path%>
+<% end %>
 
+|
+<%= link_to "Contact Us",:controller => "users", :action => "contact_us" %>
 

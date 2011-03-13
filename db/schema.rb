@@ -10,7 +10,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110302092437) do
+ActiveRecord::Schema.define(:version => 20110312060857) do
+
+  create_table "bid_activities", :force => true do |t|
+    t.integer  "liquor_license_auction_id"
+    t.integer  "user_id"
+    t.date     "expiration_date"
+    t.boolean  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "criteria_activities", :force => true do |t|
+    t.integer  "liquor_license_id"
+    t.integer  "user_id"
+    t.date     "expiration_date"
+    t.boolean  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "criterias", :force => true do |t|
+    t.integer  "state_id"
+    t.integer  "city_id"
+    t.integer  "user_id"
+    t.integer  "license_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "geoinfo_cities", :force => true do |t|
     t.string   "name"
@@ -32,9 +59,17 @@ ActiveRecord::Schema.define(:version => 20110302092437) do
     t.datetime "updated_at"
   end
 
+  create_table "license_types", :force => true do |t|
+    t.string   "license_code"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "liquor_license_auctions", :force => true do |t|
     t.float    "price"
     t.integer  "liquor_license_id"
+    t.boolean "status"
     t.integer  "user_id"
     t.integer  "bidder_id"
     t.datetime "created_at"
@@ -44,15 +79,17 @@ ActiveRecord::Schema.define(:version => 20110302092437) do
   create_table "liquor_licenses", :force => true do |t|
     t.string   "title"
     t.string   "location"
-    t.string   "state"
-    t.string   "city"
+    t.integer  "state_id"
+    t.integer  "city_id"
     t.string   "url"
     t.float    "price"
     t.date     "expiration_date"
     t.string   "from_host"
     t.string   "purpose"
+    t.string   "email"
     t.integer  "user_id"
     t.integer  "buyer_id"
+    t.integer  "license_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,10 +97,13 @@ ActiveRecord::Schema.define(:version => 20110302092437) do
   create_table "user_details", :force => true do |t|
     t.string   "real_name"
     t.string   "street_address"
-    t.string   "city"
-    t.string   "state"
+    t.integer  "city_id"
+    t.integer  "state_id"
     t.integer  "post_code"
     t.string   "paypal_account"
+    t.string   "avatar"
+    t.date     "birth_date"
+    t.string   "gender"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

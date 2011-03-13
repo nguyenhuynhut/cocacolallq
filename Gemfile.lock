@@ -43,8 +43,10 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    mini_magick (3.2)
+      subexec (~> 0.0.4)
     mysql (2.8.1-x86-mingw32)
-    nokogiri (1.4.1)
+    nokogiri (1.4.4.1-x86-mingw32)
     paypal_adaptive (0.1.0)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -66,10 +68,14 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rufus-scheduler (2.0.8)
+      tzinfo (>= 0.3.23)
+    subexec (0.0.4)
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
+    will_paginate (2.3.15)
 
 PLATFORMS
   x86-mingw32
@@ -77,7 +83,10 @@ PLATFORMS
 DEPENDENCIES
   jquery-rails
   json_pure
+  mini_magick
   mysql
-  nokogiri (= 1.4.1)
+  nokogiri
   paypal_adaptive
   rails (= 3.0.4)
+  rufus-scheduler
+  will_paginate

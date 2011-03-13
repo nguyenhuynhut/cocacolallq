@@ -5,6 +5,7 @@ class CreateLiquorLicenseAuctions < ActiveRecord::Migration
       t.references :liquor_license
       t.references :user
       t.references :bidder
+      t.boolean :status
       t.timestamps
     end
   end

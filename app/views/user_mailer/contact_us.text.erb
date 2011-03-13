@@ -1,0 +1,23 @@
+My Username : <%= @user.username %>
+<% if @user.user_detail  %>
+  <% if @user.user_detail.real_name  %>
+    My Real Name : <%= @user.user_detail.real_name %>
+  <% end %>
+<% end %>
+<% if @user.user_detail  %>
+  <% if @user.user_detail.state  %>
+    State : <%= @user.user_detail.state %>
+  <% end %>
+<% end %>
+<% if @user.user_detail  %>
+  <% if @user.user_detail.city  %>
+    City : <%= @user.user_detail.city %>
+  <% end %>
+<% end %>
+<%= @message %>
+Best Regards
+<% if @user.user_detail  %>
+  <% if @user.user_detail.real_name  %>
+<%= @user.user_detail.real_name %>
+  <% end %>
+<% end %>

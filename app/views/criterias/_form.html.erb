@@ -1,0 +1,47 @@
+<%= form_for(@criteria) do |f| %>
+  <% if @criteria.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@criteria.errors.count, "error") %> prohibited this criteria from being saved:</h2>
+
+      <ul>
+      <% @criteria.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<script type="text/javascript" charset="utf-8">
+$(function(){
+  $("select#criteria_state_id").change(function(){
+    $.getJSON("/liquor_licenses/get_cities",{id: $(this).val(), ajax: 'true'}, function(j){
+            var options = '';
+      for (var i = 0; i < j.length; i++) {
+     
+        options += '<option value="' + j[i]['geoinfo_city']['id'] + '">' + j[i]['geoinfo_city']['name'] + '</option>';
+      }
+      $("select#criteria_city_id").html(options);
+
+    })
+  })
+})
+</script>
+   <div class="field">
+    <%= f.label :License_type %><br />
+
+    <%= f.select(:license_type_id, LicenseType.find(:all, :order => 'license_code asc').collect {|c| [c.license_code + '-' + c.description, c.id ] }) %> 
+
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+
+    <%= f.select(:state_id, GeoinfoState.find(:all, :order => 'name asc').collect {|c| [ c.name, c.id ] }) %> 
+
+  </div>
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= f.select(:city_id, @cities_first ? @cities_first.collect {|c| [ c.name, c.id ]} : '', :selected => @selected_city ? @selected_city.id : '' ) %> 
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

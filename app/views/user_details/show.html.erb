@@ -1,5 +1,8 @@
 <p id="notice"><%= notice %></p>
-
+<p>
+  <b>Avatar:</b>
+   <%= image_tag @user_detail.avatar ? @user_detail.avatar : 'logo.jpg', :size => "60x60" %>
+</p>
 <p>
   <b>Real name:</b>
   <%= @user_detail.real_name %>
@@ -11,18 +14,26 @@
 </p>
 
 <p>
-  <b>City:</b>
-  <%= @user_detail.city %>
+  <b>State:</b>
+  <%= GeoinfoState.find(@user_detail.state_id).name %>
 </p>
 
 <p>
-  <b>State:</b>
-  <%= @user_detail.state %>
+  <b>City:</b>
+  <%= @user_detail.city_id ? GeoinfoCity.find(@user_detail.city_id).name : ''  %>
 </p>
 
 <p>
   <b>Post code:</b>
   <%= @user_detail.post_code %>
+</p>
+<p>
+ <b>Birth Date:</b>
+  <%= @user_detail.birth_date %>
+</p>
+<p>
+ <b>Gender:</b>
+  <%= @user_detail.gender %>
 </p>
 
 

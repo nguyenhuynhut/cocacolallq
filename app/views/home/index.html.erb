@@ -1,3 +1,88 @@
 <h1>Welcome to Liquor License</h1>
-<p><%= link_to "Login",:controller => "users", :action => "login" %></p>
-<p><%= link_to "Sign Up",:controller => "users", :action => "new" %></p>
+<% if session[:user_id] == nil %>
+  <%= link_to "Login",:controller => "users", :action => "login" %>
+  |
+  <%= link_to "Sign Up",:controller => "users", :action => "new" %>
+<% else %>
+  <!--#displays hello (username)-->
+  hello <strong><%=session[:user_id]%></strong>.
+  <%= image_tag @valid_user.user_detail ? (@valid_user.user_detail.avatar ? @valid_user.user_detail.avatar : 'logo.jpg')  : 'logo.jpg', :size => "60x60" %>
+  <!--#creates logout link, when the link is clicked, the controller is User and the method executed will be logout.-->
+  <%= link_to "logout",:controller => "users", :action => "logout" %> | <%= link_to 'Setting User', edit_user_path(@valid_user) %>
+  | <%= link_to 'New Liquor license', new_liquor_license_path %> | 
+  <%if @valid_user.user_detail%>
+    <%= link_to 'Account Detail', edit_user_detail_path(@valid_user.user_detail) %>
+  <% else %>
+    <%= link_to 'Account Details', new_user_detail_path%>
+  <% end %>
+  | 
+  <% if @valid_user.kind =="Selling" %>
+    <%= link_to 'Liquor Licenses for Seller', :controller => "liquor_licenses", :action => "get_for_sale"%>
+  <% end %>
+  <% if @valid_user.kind =="Buying" %>
+    <%= link_to 'Liquor Licenses for Buyer', :controller => "liquor_licenses", :action => "get_for_buy"%>
+  <% end %>
+  <% if @valid_user.kind =="Both" %>
+    <%= link_to 'Liquor Licenses', :controller => "liquor_licenses", :action => "get_for_both"%>
+  <% end %>
+  |
+  <%= link_to 'My Liquor Licenses', liquor_licenses_path %>
+  |
+  <%if @valid_user.criteria %>
+    <%= link_to 'My Criteria', edit_criteria_path(@valid_user.criteria) %>
+  <% else %>
+    <%= link_to 'My Criteria', new_criteria_path%>
+  <% end %>
+
+
+
+<% end %>
+|
+<%= link_to "Contact Us",:controller => "users", :action => "contact_us" %>
+<table>
+  <tr>
+    <th>
+      States
+    </th>
+  </tr>
+ 
+      <% @states.each do |state| %>
+   <tr>
+    <td
+      <%= link_to state.name,:controller => "home", :action => "search", :id => state.id %>
+    </td>
+       </tr>
+      <% end %>
+ 
+</table>
+<h1>Listing New Liquor Licenses</h1>
+
+<table>
+  <tr>
+    <%= sortable_table_header :name => "Title",  :sort => "title" %>
+    <%= sortable_table_header :name => "State", :sort => "state" %>
+    <%= sortable_table_header :name => "City",   :sort => "city" %>
+    <%= sortable_table_header :name => "License Type",   :sort => "license_type_id" %>
+    <%= sortable_table_header :name => "Price",   :sort => "price" %>
+    <th>Bid<th/>
+    <%= sortable_table_header :name => "Expiration Date", :sort => "expiration_date" %>
+
+  </tr>
+
+  <% @liquor_licenses.each do |liquor_license| %>
+    <tr>
+      <td><%= liquor_license.title %></td>
+      <td><%= liquor_license.state_id ? GeoinfoState.find(liquor_license.state_id).name : '' %></td>
+      <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
+      <td><%= liquor_license.license_type ? liquor_license.license_type.license_code + '-' + liquor_license.license_type.description : ''%></td> 
+            <td> <%=  liquor_license.price != 0 ? '$':'' %> <%= liquor_license.price != 0 ? liquor_license.price  : '' %></td>
+      <td> <%= LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first ? '$' : '' %>
+<%= LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first ? LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first.price : '' %>
+      <td/>
+      <td><%= liquor_license.expiration_date %></td>
+  
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @liquor_licenses %>
+<br />

@@ -1,5 +1,9 @@
 Liquorlicensehq::Application.routes.draw do
   
+  resources :criterias
+
+  resources :license_types
+
   resources :user_details
 
   resources :liquor_license_auctions
@@ -8,8 +12,16 @@ Liquorlicensehq::Application.routes.draw do
 
   get "home/index"
   get "users/login"
+  get "liquor_licenses/get_my_auction"
+  get "users/import_data"
+  get "liquor_licenses/get_cities"
+   get "liquor_licenses/accept"
   get "users/logout"
+  get "users/check_criteria"
   get "users/private"
+  get "users/contact_us"
+   get "home/search"
+  get "users/sendmail_criteria_activity"
   get "users/forgot"
   get "users/sendmail"
   get "liquor_licenses/paypal_request"
@@ -17,8 +29,10 @@ Liquorlicensehq::Application.routes.draw do
   get "liquor_licenses/get_for_sale"
   get "liquor_licenses/get_for_buy"
   get "liquor_licenses/get_for_both"
+  get "users/check_bid"
+  get "users/sendmail_bid_activity"
   resources :users
-    resources :liquor_licenses
+  resources :liquor_licenses
 
 
 

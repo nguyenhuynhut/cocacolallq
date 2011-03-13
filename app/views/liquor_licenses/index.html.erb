@@ -15,8 +15,8 @@
   <% @liquor_licenses.each do |liquor_license| %>
     <tr>
       <td><%= liquor_license.title %></td>
-      <td><%= liquor_license.state %></td>
-      <td><%= liquor_license.city %></td>
+        <td><%= GeoinfoState.find(liquor_license.state_id).name %></td>
+        <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
       <td><%= liquor_license.price != 0 ? liquor_license.price  : '' %> <%=  liquor_license.price != 0 ? '$':'' %></td>
       <td><%= liquor_license.expiration_date %></td>
       <td><%= link_to 'Show', liquor_license %></td>
@@ -25,7 +25,7 @@
     </tr>
   <% end %>
 </table>
-
+  <%= will_paginate @liquor_licenses %>
 <br />
 
 <%= link_to 'New Liquor license', new_liquor_license_path %>

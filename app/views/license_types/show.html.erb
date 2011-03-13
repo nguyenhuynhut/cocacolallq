@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>License code:</b>
+  <%= @license_type.license_code %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @license_type.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_license_type_path(@license_type) %> |
+<%= link_to 'Back', license_types_path %>

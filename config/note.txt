@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/4602418/rails-whenever-gem-dynamic-values

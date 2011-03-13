@@ -1,0 +1,41 @@
+<% if params[:notice] %>
+  <% if params[:notice][:error] %>
+  <div style="font-family:'Trebuchet MS'; color:#FF0000; font-size:14px;">
+  
+    <%= params[:notice][:error] %>
+  </div>
+<% end %>
+<% end %>
+
+<!--creates form, exectues the authenticate method when the submit button is clicked-->
+<%= form_tag :action=>'send_contact_us' %>
+
+<p>
+  <b>Subject:</b> <br/>
+  <%= text_field("contact_us", "subject",:size=>"53" , :maxlength => '255', :value => params[:notice] ? params[:notice][:subject] : '') %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <b</b><br/>
+  <%= text_area("contact_us" ,"message", :size => "40x10", :value => params[:notice] ? params[:notice][:message] : '') %>
+</p>
+<script type="text/javascript">
+	
+  function checkValidate() {
+
+    if ($("#contact_us_subject").val() == null || $("#contact_us_subject").val() == '') {
+      alert ("Please type in Subject");
+      return false; 
+    }
+    if ($("#contact_us_message").val() == null || $("#contact_us_message").val() == '') {
+      alert ("Please type in Message");
+      return false; 
+    }
+                        
+    return true;
+
+  }
+</script>
+<%= recaptcha_tags %>
+<input type="submit" value=" Send " onclick=" return checkValidate();"/>
