@@ -64,7 +64,7 @@
     <%= sortable_table_header :name => "City",   :sort => "city" %>
     <%= sortable_table_header :name => "License Type",   :sort => "license_type_id" %>
     <%= sortable_table_header :name => "Price",   :sort => "price" %>
-    <th>Bid<th/>
+
     <%= sortable_table_header :name => "Expiration Date", :sort => "expiration_date" %>
 
   </tr>
@@ -76,9 +76,6 @@
       <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
       <td><%= liquor_license.license_type ? liquor_license.license_type.license_code + '-' + liquor_license.license_type.description : ''%></td> 
             <td> <%=  liquor_license.price != 0 ? '$':'' %> <%= liquor_license.price != 0 ? liquor_license.price  : '' %></td>
-      <td> <%= LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first ? '$' : '' %>
-<%= LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first ? LiquorLicenseAuction.where(:liquor_License_id  => liquor_license.id).find(:all, :order => 'price desc').first.price : '' %>
-      <td/>
       <td><%= liquor_license.expiration_date %></td>
   
     </tr>

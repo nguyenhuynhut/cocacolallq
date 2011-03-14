@@ -324,4 +324,103 @@ class LiquorLicensesController < ApplicationController
     logger.info 'aaaaafffffffffffffffffffffffff'
     render :json => liquor_license_auction
   end
+    def get_craigslist
+    # Get a Nokogiri::HTML:Document for the page we’re interested in...
+    
+    doc = Nokogiri::HTML(open('http://detroit.craigslist.org/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
+    doc.xpath('//p[@class="row"]').each do |link|
+      index = link.content.index('-') - 1
+      title = nil
+      url = nil
+      email = nil
+      state_id = nil
+      state = nil
+      license_type_id = nil
+      city_id = nil
+      city = nil
+      price = 0
+      created_at = Date.parse(link.content[10..index] + Date.today().year().to_s )
+      #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
+      if link.at('a')
+        index = link.at('a').text.index('-') - 1
+        title = link.at('a').text[0, index]
+        url = link.at('a')['href']
+        doc_detail = Nokogiri::HTML(open(url))
+        doc_detail.xpath('//a').each do |link_detail|
+          if link_detail.text.include? '@craigslist.org'
+            email = link_detail.text
+          end
+        end
+      end
+      if link.at('font')
+        begin_index = link.at('font').text.index('(') + 1
+        end_index = link.at('font').text.index(')') - 1
+        location = link.at('font').text[begin_index..end_index]
+        location = location.strip   
+        location = location.gsub(/[&,-\/]/, ' ')  
+        array_location = location.split
+        for i in 0..(array_location.length - 1)
+          array_location[i] = "%" + array_location[i] + "%"
+          conditions = {}
+          conditions[:name] = array_location[i]
+          state_result = GeoinfoState.where("name LIKE :name", conditions).find(:all, :order => "name asc").first
+          if state 
+            if state_result
+              state = state_result
+              
+            end  
+          else
+            state = state_result
+          end
+                
+        end     
+        
+        for i in 0..(array_location.length - 1)
+          conditions = {}
+          conditions[:name] = array_location[i]
+          city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+          if city 
+            if city_result
+              if city_result.population_2000 > city.population_2000
+                city = city_result
+              end
+            end  
+          else
+            city = city_result
+          end
+                
+        end
+        if state == nil
+          if city != nil
+            city_id = city.id
+            state_id = city.state_id
+          end
+        else
+          if city 
+            if city.state_id == state.id
+              city_id = city.id
+              state_id = city.state_id
+            else
+              state_id = state.id
+              city_id = nil
+            end 
+          else 
+            city_id = nil
+            state_id = state.id
+          end
+        end
+
+      end
+      if link.content.split('$').length == 2
+        index = link.content.split('$')[1].index(' ') - 1
+        price = link.content.split('$')[1][0..index].to_i
+      end
+      liquor_license = LiquorLicense.where(:title => title , :price => price).first
+      if liquor_license == nil
+          liquor_license = LiquorLicense.new(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at, :state_id => state_id , :city_id => city_id)
+            liquor_license.save
+      end
+    end
+    @liquor_licenses = LiquorLicense.where(:from_host => 'craigslist')
+  end
 end
