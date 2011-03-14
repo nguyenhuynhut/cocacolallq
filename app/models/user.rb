@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :criteria_activities, :dependent => :destroy
   has_many :liquor_license_auctions
   has_many :bid_activities
-  def self.check_criteria
+  def User.check_criteria
     @users = User.find(:all)
     @users.each do |user|
       result = []
@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
     end
     
   end
-  def self.sendmail_criteria_activity
+  def User.sendmail_criteria_activity
     @users = User.find(:all)
     subject = 'Your Criteria about Liquor License'
     @users.each do |user|
@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
     end
 
   end
-  def self.check_bid
+  def User.check_bid
     @users = User.find(:all)
     @users.each do |user|
       auctions = LiquorLicenseAuction.where(:bidder_id => user.id)
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-  def self.sendmail_bid_activity
+  def User.sendmail_bid_activity
     subject = 'Bid Higher'
     bid_activities = BidActivity.find(:all)
     bid_activities.each do |bid_activity|
@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
     end
 
   end
-    def self.get_craigslist
+    def User.get_craigslist
     # Get a Nokogiri::HTML:Document for the page we’re interested in...
     
       

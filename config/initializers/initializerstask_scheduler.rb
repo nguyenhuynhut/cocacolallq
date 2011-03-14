@@ -14,15 +14,15 @@ scheduler.every("5m") do
   puts "Check Criteria"
   puts User.check_criteria
 end
-scheduler.every("15m") do
+scheduler.every("10m") do
   puts "Send Mail Criteria"
   puts User.sendmail_criteria_activity
 end
-scheduler.every("15m") do
+scheduler.every("10m") do
   puts "Send Mail Bit"
   puts User.sendmail_bid_activity
 end
-scheduler.every("10m") do
+scheduler.every("15m") do
   puts "Get Craigslist"
   puts User.get_craigslist
 end

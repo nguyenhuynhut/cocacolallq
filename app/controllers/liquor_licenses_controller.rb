@@ -349,6 +349,7 @@ class LiquorLicensesController < ApplicationController
         conditions = {}
         conditions[:name] = location[i]
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+        logger.info city_result ? city_result.name : ''
         if city_result 
           state_result = GeoinfoState.find(city_result.state_id)
           if state_result
