@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     conditions[:today] = Date.today()
     conditions[:before] = Date.today() - 60
     result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND  created_at >= :before", conditions).find :all, :order => sort_order
-    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 3)
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 20)
   end
   def search
     query_string = ""
@@ -68,6 +68,6 @@ class HomeController < ApplicationController
     logger.info conditions
     result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) " + query_string , conditions).find :all, :order => sort_order
     logger.info 'buon boi'
-    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 1)
+    @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 20)
   end
 end
