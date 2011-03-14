@@ -21,11 +21,13 @@ class LiquorLicensesController < ApplicationController
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     @liquor_license_auction =LiquorLicenseAuction.where(:liquor_license_id => params[:id], :bidder_id =>  @valid_user.id).first
     if params[:auction] and params[:auction][:bid] != '' and params[:auction][:bid].to_f > 0
-      recipient = @liquor_license.user.email
-      subject = "Bid Your Liquor License"
-      message = params[:auction][:message]
-      if recipient
-      UserMailer.bid(recipient, subject, @valid_user, message, @liquor_license, params[:auction][:bid]).deliver
+      if  @liquor_license.user
+        recipient = @liquor_license.user.email
+        subject = "Bid Your Liquor License"
+        message = params[:auction][:message]
+        if recipient
+          UserMailer.bid(recipient, subject, @valid_user, message, @liquor_license, params[:auction][:bid]).deliver
+        end
       end
       if @liquor_license_auction != nil
         
@@ -251,7 +253,7 @@ class LiquorLicensesController < ApplicationController
     end
     conditions[:today] = Date.today()
     conditions[:purpose] = 'Sell'
-     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     conditions[:user_id] = @valid_user.id
     result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND purpose = :purpose AND (user_id != :user_id or user_id IS NULL)" + query_string, conditions).find :all, :order => sort_order
     @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 30)
@@ -313,8 +315,8 @@ class LiquorLicensesController < ApplicationController
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     @liquor_license_auctions = []
     if @valid_user
-    result = LiquorLicenseAuction.where(:bidder_id =>  @valid_user.id)
-    @liquor_license_auctions = result.paginate(:page => params[:page] ,:per_page => 1)
+      result = LiquorLicenseAuction.where(:bidder_id =>  @valid_user.id)
+      @liquor_license_auctions = result.paginate(:page => params[:page] ,:per_page => 1)
     end
   end
   def accept
@@ -326,7 +328,7 @@ class LiquorLicensesController < ApplicationController
     logger.info 'aaaaafffffffffffffffffffffffff'
     render :json => liquor_license_auction
   end
-    def get_craigslist
+  def get_craigslist
     # Get a Nokogiri::HTML:Document for the page we’re interested in...
     
     doc = Nokogiri::HTML(open('http://detroit.craigslist.org/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
@@ -419,8 +421,8 @@ class LiquorLicensesController < ApplicationController
       end
       liquor_license = LiquorLicense.where(:title => title , :price => price).first
       if liquor_license == nil
-          liquor_license = LiquorLicense.new(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at, :state_id => state_id , :city_id => city_id)
-            liquor_license.save
+        liquor_license = LiquorLicense.new(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at, :state_id => state_id , :city_id => city_id)
+        liquor_license.save
       end
     end
     @liquor_licenses = LiquorLicense.where(:from_host => 'craigslist')
