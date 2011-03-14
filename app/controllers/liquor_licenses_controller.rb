@@ -329,6 +329,71 @@ class LiquorLicensesController < ApplicationController
     render :json => liquor_license_auction
   end
   def get_craigslist
+    
+    doc = Nokogiri::HTML(open('http://www.craigslist.org/about/sites'))
+    doc.xpath('//li/a').each do |link|
+      state_id = nil
+      city_id = nil
+      location = []
+      logger.info link['href']
+      place = link.text
+      location << place.strip 
+      if location[0].include? '-' 
+        location = location[0].split(/-/)
+      end
+      if location[0].include? '/'
+        location = location[0].split(/\//)
+      end
+      logger.info location
+      for i in 0..(location.length - 1)
+        conditions = {}
+        conditions[:name] = location[i]
+        city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+        if city_result 
+          state_result = GeoinfoState.find(city_result.state_id)
+          if state_result
+          state_id = city_result.state_id
+          end
+          city_id = city_result.id
+        end        
+        doc_detail = Nokogiri::HTML(open(link['href'] + '/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
+        doc_detail.xpath('//p[@class="row"]').each do |link_detail|
+          index = link_detail.content.index('-') - 1
+          title = nil
+          url = nil
+          email = nil
+
+          license_type_id = nil
+
+          price = 0
+          created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
+          #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
+          if link_detail.at('a')
+            index = link_detail.at('a').text.index('-') - 1
+            title = link_detail.at('a').text[0, index]
+            url = link_detail.at('a')['href']
+            doc_detail_more = Nokogiri::HTML(open(url))
+            doc_detail_more.xpath('//a').each do |link_detail_more|
+              if link_detail_more.text.include? '@craigslist.org'
+                email = link_detail_more.text
+              end
+            end
+          end
+          if link_detail.content.split('$').length == 2
+            index = link_detail.content.split('$')[1].index(' ') - 1
+            price = link_detail.content.split('$')[1][0..index].to_i
+          end
+          liquor_license = LiquorLicense.where(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell',  :state_id => state_id , :city_id => city_id).first
+          if liquor_license == nil
+            liquor_license = LiquorLicense.new(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at, :state_id => state_id , :city_id => city_id)
+            liquor_license.save
+          end
+        end
+      end 
+    end
+    @liquor_licenses = LiquorLicense.where(:from_host => 'craigslist')
+  end
+  def backup
     # Get a Nokogiri::HTML:Document for the page we’re interested in...
     
     doc = Nokogiri::HTML(open('http://detroit.craigslist.org/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))

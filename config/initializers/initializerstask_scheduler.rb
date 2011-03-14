@@ -6,23 +6,23 @@ require 'rufus/scheduler'
 scheduler = Rufus::Scheduler.start_new
 
 ## It will print message every i minute
-scheduler.every("1h") do
+scheduler.every("5m") do
   puts 'Check bid'
   puts User.check_bid
 end
-scheduler.every("1h") do
+scheduler.every("5m") do
   puts "Check Criteria"
   puts User.check_criteria
 end
-scheduler.every("2h") do
+scheduler.every("15m") do
   puts "Send Mail Criteria"
   puts User.sendmail_criteria_activity
 end
-scheduler.every("2h") do
+scheduler.every("15m") do
   puts "Send Mail Bit"
   puts User.sendmail_bid_activity
 end
-scheduler.every("2h") do
+scheduler.every("10m") do
   puts "Get Craigslist"
   puts User.get_craigslist
 end
