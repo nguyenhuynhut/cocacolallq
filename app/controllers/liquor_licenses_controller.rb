@@ -24,7 +24,9 @@ class LiquorLicensesController < ApplicationController
       recipient = @liquor_license.user.email
       subject = "Bid Your Liquor License"
       message = params[:auction][:message]
+      if recipient
       UserMailer.bid(recipient, subject, @valid_user, message, @liquor_license, params[:auction][:bid]).deliver
+      end
       if @liquor_license_auction != nil
         
         @liquor_license_auction.price = params[:auction][:bid].to_f
