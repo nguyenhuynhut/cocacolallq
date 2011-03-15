@@ -16,25 +16,55 @@
 
   <% @liquor_license_auctions.each do |liquor_license_auction| %>
     <tr>
-      <td><%= LiquorLicense.find(liquor_license_auction.id).title %></td>
-      <td><%= LiquorLicense.find(liquor_license_auction.id).state_id ? GeoinfoState.find(LiquorLicense.find(liquor_license_auction.id).state_id).name : '' %></td>
-      <td><%= LiquorLicense.find(liquor_license_auction.id).city_id ? GeoinfoCity.find(LiquorLicense.find(liquor_license_auction.id).city_id).name : '' %></td>
-      <td><%= LiquorLicense.find(liquor_license_auction.id).license_type ?  LiquorLicense.find(liquor_license_auction.id).license_type.license_code + '-' + LiquorLicense.find(liquor_license_auction.id).license_type.description : ''%></td>
+      <td><%= LiquorLicense.find(liquor_license_auction.liquor_license_id).title %></td>
+      <td><%= LiquorLicense.find(liquor_license_auction.liquor_license_id).state_id ? GeoinfoState.find(LiquorLicense.find(liquor_license_auction.liquor_license_id).state_id).name : '' %></td>
+      <td><%= LiquorLicense.find(liquor_license_auction.liquor_license_id).city_id ? GeoinfoCity.find(LiquorLicense.find(liquor_license_auction.liquor_license_id).city_id).name : '' %></td>
+      <td><%= LiquorLicense.find(liquor_license_auction.liquor_license_id).license_type ?  LiquorLicense.find(liquor_license_auction.liquor_license_id).license_type.license_code + '-' + LiquorLicense.find(liquor_license_auction.liquor_license_id).license_type.description : ''%></td>
       <td> $ <%= liquor_license_auction.price %> <td/>
-      <td><%= LiquorLicense.find(liquor_license_auction.id).expiration_date %></td>
+      <td><%= LiquorLicense.find(liquor_license_auction.liquor_license_id).expiration_date %></td>
       <td>
         <% if liquor_license_auction.status == true %>
           <form action="https://www.escrow.com/ecart/StartTransaction.asp" method="post">
             <input name="pid" value="6079" type="hidden">
-            <input name="item" value="<%= LiquorLicense.find(liquor_license_auction.id).title %>" type="hidden">
-            <input name="desc" value="" type="hidden">
+            <input name="item" value="liquor license" type="hidden">
+            <input name="desc" value="liquor license" type="hidden">
             <input name="qty" value="1" type="hidden">
             <input name="price" value="<%= liquor_license_auction.price %>" type="hidden">
             <input name="ship" value="0" type="hidden">
             <input name="type" value="GM" type="hidden">
             <input name="submit" value="Buy It Now" type="submit">
             </form>
+<form action="https://www.escrow.com/ecart/StartTransaction.asp" method="post">
+<input name="pid" value="5470" type="hidden">
 
+<input name="item" value="KidsCards.com" type="hidden">
+<input name="desc" value="KidsCards.com" type="hidden">
+<input name="qty" value="1" type="hidden">
+<input name="price" value="3850.00" type="hidden">
+<input name="ship" value="0" type="hidden">
+<input name="type" value="GM" type="hidden">
+<input name="submit" value="Buy It Now" type="submit">
+</form>
+<form method="post" action="https://www.escrow.com/ecart/StartTransaction.asp">
+<input type=hidden name="pid" value="6079">
+<input type=hidden name="item" value="liquor license">
+<input type=hidden name="desc" value="liquor license">
+<input type=hidden name="qty" value="1">
+<input type=hidden name="price" value="21">
+<input type=hidden name="ship" value="0">
+<input type=hidden name="type" value="GM">
+<input type=submit name="submit" value="Buy It Now">
+</form>
+        <form method="post" action="https://www.escrow.com/ecart/StartTransaction.asp">
+<input type=hidden name="pid" value="6077">
+<input type=hidden name="item" value="liquor license">
+<input type=hidden name="desc" value="liquor license">
+<input type=hidden name="qty" value="1">
+<input type=hidden name="price" value="21">
+<input type=hidden name="ship" value="0">
+<input type=hidden name="type" value="GM">
+<input type=submit name="submit" value="Buy It Now">
+</form>
           <% end %>
           </td>
           </tr>

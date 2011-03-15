@@ -7,7 +7,8 @@ class LiquorLicensesController < ApplicationController
   # GET /liquor_licenses.xml
   sortable_attributes :title , :city_id, :state_id , :expiration_date, :price, :license_type_id
   def index
-    result = LiquorLicense.joins(:user).where("users.username != :username", {:username => session[:user_id]})
+    result = LiquorLicense.joins(:user).where("users.username = :username", {:username => session[:user_id]})
+    logger.info session[:user_id]
     @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 1)
     respond_to do |format|
       format.html # index.html.erb

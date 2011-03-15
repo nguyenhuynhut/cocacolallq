@@ -28,6 +28,9 @@
   |
   <%= link_to 'My Liquor Licenses', liquor_licenses_path %>
   |
+
+  <%= link_to 'My Auction', :controller => "liquor_licenses", :action => "get_my_auction"%>
+    |
   <%if @valid_user.criteria %>
     <%= link_to 'My Criteria', edit_criteria_path(@valid_user.criteria) %>
   <% else %>
@@ -39,22 +42,12 @@
 <% end %>
 |
 <%= link_to "Contact Us",:controller => "users", :action => "contact_us" %>
-<table>
-  <tr>
-    <th>
-      States
-    </th>
-  </tr>
- 
-      <% @states.each do |state| %>
-   <tr>
-    <td
-      <%= link_to state.name,:controller => "home", :action => "search", :id => state.id %>
-    </td>
-       </tr>
-      <% end %>
- 
-</table>
+
+<%= form_for :search, :url => { :action => "search" } do |f| %>
+
+State <%= f.select( :id , GeoinfoState.find(:all, :order => 'name asc').collect {|c| [ c.name, c.id ] })   %>
+     <%= f.submit 'Search' %>
+<% end %>
 <h1>Listing New Liquor Licenses</h1>
 
 <table>
@@ -73,7 +66,7 @@
     <tr>
       <td><%= liquor_license.title %></td>
       <td><%= liquor_license.state_id ? GeoinfoState.find(liquor_license.state_id).name : '' %></td>
-      <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
+      <td><%= liquor_license.city_id ? ( GeoinfoCity.find(liquor_license.city_id) ? GeoinfoCity.find(liquor_license.city_id).name : '') : '' %></td>
       <td><%= liquor_license.license_type ? liquor_license.license_type.license_code + '-' + liquor_license.license_type.description : ''%></td> 
             <td> <%=  liquor_license.price != 0 ? '$':'' %> <%= liquor_license.price != 0 ? liquor_license.price  : '' %></td>
       <td><%= liquor_license.expiration_date %></td>

@@ -17,23 +17,22 @@ class HomeController < ApplicationController
   def search
     query_string = ""
     conditions = {}
-    @state_first = GeoinfoState.find(:first, :order => 'name asc')
     if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
       @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
     end
     logger.info params
-    if params[:id] 
-      @state_first = GeoinfoState.find(params[:id])
+    if params[:search] and params[:search][:id]
+      @state_first = GeoinfoState.find(params[:search][:id])
     end
     @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license] and params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
     end
-    if params[:id] 
+     if params[:search] and params[:search][:id]
       logger.info 'aaaaaaaaaaaasaa'
       query_string = query_string + " AND state_id = :state_id"  
-      conditions[:state_id] = params[:id]
+      conditions[:state_id] = params[:search][:id]
     end
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''

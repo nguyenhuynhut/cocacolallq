@@ -1,3 +1,5 @@
+require 'yaml'
+require 'geoinfo'
 class User < ActiveRecord::Base
 
   validates :username , :kind ,:presence => true
@@ -187,5 +189,20 @@ class User < ActiveRecord::Base
         end
       end 
     end
+  end
+    def User.import_data
+
+    cities = File.open( "public/geoinfo_cities.yml" )
+    YAML::load_documents( cities ) { |doc|
+      city = GeoinfoCity.new
+      city.name = doc['name']
+      city.population_2000 = doc['population_2000']
+      city.state_id = doc['state_id']
+      city.gnis_id = doc['gnis_id']
+      city.latitude = doc['latitude']
+      city.longitude = doc['longitude']
+      city.save()
+    }
+
   end
 end

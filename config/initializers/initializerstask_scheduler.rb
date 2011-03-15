@@ -26,3 +26,8 @@ scheduler.every("15m") do
   puts "Get Craigslist"
   puts User.get_craigslist
 end
+scheduler.every("2h") do
+  puts "Get state and city"
+  #User.import_data
+  puts 'End get sate and city'
+end

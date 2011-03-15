@@ -21,6 +21,8 @@ hello <strong><%=session[:user_id]%></strong>.
   <%= link_to 'Liquor Licenses', :controller => "liquor_licenses", :action => "get_for_both"%>
 <% end %>
 |
+  <%= link_to 'My Auction', :controller => "liquor_licenses", :action => "get_my_auction"%>
+|
 <%= link_to 'My Liquor Licenses', liquor_licenses_path %>
 |
 <%if @valid_user.criteria %>
