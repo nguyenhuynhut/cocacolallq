@@ -134,8 +134,8 @@ class User < ActiveRecord::Base
       
     doc = Nokogiri::HTML(open('http://www.craigslist.org/about/sites'))
     doc.xpath('//li/a').each do |link|
-      state_id = nil
-      city_id = nil
+      @state_id = nil
+      @city_id = nil
       location = []
       place = link.text
       location << place.strip 
@@ -152,9 +152,9 @@ class User < ActiveRecord::Base
         if city_result 
           state_result = GeoinfoState.find(city_result.state_id)
           if state_result
-            state_id = city_result.state_id
+            @state_id = city_result.state_id
           end
-          city_id = city_result.id
+          @city_id = city_result.id
         end        
         doc_detail = Nokogiri::HTML(open(link['href'] + '/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
         doc_detail.xpath('//p[@class="row"]').each do |link_detail|
@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
           created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
           #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
           if link_detail.at('a')
-            if link_detail.at('a').text
+            if link_detail.at('a').text != nil and link_detail.at('a').text
               index = link_detail.at('a').text.index('-') - 1
               title = link_detail.at('a').text[0, index]
             end
@@ -187,8 +187,8 @@ class User < ActiveRecord::Base
           end
           liquor_license = LiquorLicense.where(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell',  :state_id => state_id , :city_id => city_id).first
           if liquor_license == nil
-            if state_id and city_id
-            liquor_license = LiquorLicense.new( :state_id => state_id.to_i , :city_id => city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
+            if @state_id and @city_id
+            liquor_license = LiquorLicense.new( :state_id => @state_id.to_i , :city_id => @city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
             
             liquor_license.save
             end
