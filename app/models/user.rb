@@ -1,5 +1,7 @@
 require 'yaml'
 require 'geoinfo'
+require 'nokogiri'
+require 'open-uri'
 class User < ActiveRecord::Base
 
   validates :username , :kind ,:presence => true
@@ -126,7 +128,7 @@ class User < ActiveRecord::Base
     end
 
   end
-    def User.get_craigslist
+  def User.get_craigslist
     # Get a Nokogiri::HTML:Document for the page we’re interested in...
     
       
@@ -150,7 +152,7 @@ class User < ActiveRecord::Base
         if city_result 
           state_result = GeoinfoState.find(city_result.state_id)
           if state_result
-          state_id = city_result.state_id
+            state_id = city_result.state_id
           end
           city_id = city_result.id
         end        
@@ -167,8 +169,10 @@ class User < ActiveRecord::Base
           created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
           #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
           if link_detail.at('a')
-            index = link_detail.at('a').text.index('-') - 1
-            title = link_detail.at('a').text[0, index]
+            if link_detail.at('a').text
+              index = link_detail.at('a').text.index('-') - 1
+              title = link_detail.at('a').text[0, index]
+            end
             url = link_detail.at('a')['href']
             doc_detail_more = Nokogiri::HTML(open(url))
             doc_detail_more.xpath('//a').each do |link_detail_more|
@@ -190,7 +194,7 @@ class User < ActiveRecord::Base
       end 
     end
   end
-    def User.import_data
+  def User.import_data
 
     cities = File.open( "public/geoinfo_cities.yml" )
     YAML::load_documents( cities ) { |doc|
@@ -204,5 +208,11 @@ class User < ActiveRecord::Base
       city.save()
     }
 
+  end
+  def User.delete_licenses
+    @liquor_licenses = LiquorLicense.find(:all)
+    @liquor_licenses.each do |liquor_license|
+      liquor_license.delete
+    end
   end
 end
