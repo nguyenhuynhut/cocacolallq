@@ -181,12 +181,13 @@ class User < ActiveRecord::Base
                 end
               end
               url = link_detail.at('a')['href']
-              
-              doc_detail_more = Nokogiri::HTML(open(url))
-              if doc_detail_more
-                doc_detail_more.xpath('//a').each do |link_detail_more|
-                  if link_detail_more.text.include? '@craigslist.org'
-                    email = link_detail_more.text
+              if url 
+                doc_detail_more = Nokogiri::HTML(open(url))
+                if doc_detail_more
+                  doc_detail_more.xpath('//a').each do |link_detail_more|
+                    if link_detail_more.text.include? '@craigslist.org'
+                      email = link_detail_more.text
+                    end
                   end
                 end
               end
