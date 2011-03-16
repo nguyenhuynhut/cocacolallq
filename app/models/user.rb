@@ -150,7 +150,7 @@ class User < ActiveRecord::Base
         conditions[:name] = "%" + location[i].upcase  + "%" 
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
         if city_result 
-          state_result = GeoinfoState.find(city_result.state_id)
+          state_result = GeoinfoState.find_by_id(city_result.state_id)
           if state_result
             @state_id = city_result.state_id
           end
