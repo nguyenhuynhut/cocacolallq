@@ -22,13 +22,9 @@ scheduler.every("10m") do
   puts "Send Mail Bit"
   puts User.sendmail_bid_activity
 end
-scheduler.every("2m") do
-  
-  
-  puts "Get Craigslist  "
+scheduler.every("15m") do
+  puts "Get Craigslist"
   puts User.get_craigslist
-  
-  
 end
 scheduler.every("2h") do
   puts "Get state and city"

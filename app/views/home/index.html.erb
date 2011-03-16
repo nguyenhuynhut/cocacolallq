@@ -65,8 +65,8 @@ State <%= f.select( :id , GeoinfoState.find(:all, :order => 'name asc').collect 
   <% @liquor_licenses.each do |liquor_license| %>
     <tr>
       <td><%= liquor_license.title %></td>
-      <td><%= liquor_license.state_id ? GeoinfoState.find(liquor_license.state_id).name : '' %></td>
-      <td><%= liquor_license.city_id ? ( GeoinfoCity.find(liquor_license.city_id) ? GeoinfoCity.find(liquor_license.city_id).name : '') : '' %></td>
+      <td><%= liquor_license.state_id %></td>
+      <td><%= liquor_license.city_id %></td>
       <td><%= liquor_license.license_type ? liquor_license.license_type.license_code + '-' + liquor_license.license_type.description : ''%></td> 
             <td> <%=  liquor_license.price != 0 ? '$':'' %> <%= liquor_license.price != 0 ? liquor_license.price  : '' %></td>
       <td><%= liquor_license.expiration_date %></td>
