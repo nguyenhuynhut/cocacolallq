@@ -149,18 +149,12 @@ class User < ActiveRecord::Base
         conditions = {}
         conditions[:name] = "%" + location[i].upcase  + "%" 
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
-        puts 'CITY'
-        puts city_result
-        puts 'END'
         if city_result 
           state_result = GeoinfoState.find(city_result.state_id)
           if state_result
             @state_id = city_result.state_id
           end
           @city_id = city_result.id
-          puts 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-          puts @state_id
-          puts @city_id
         end       
         
         doc_detail = Nokogiri::HTML(open(link['href'] + '/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
@@ -183,9 +177,6 @@ class User < ActiveRecord::Base
                   title = link_detail.at('a').text[0, index]
                 end
               end
-              puts 'URL'
-              puts url
-              puts 'END'
               url = link_detail.at('a')['href']
               if url 
                 doc_detail_more = Nokogiri::HTML(open(url))

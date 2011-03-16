@@ -24,7 +24,7 @@ class HomeController < ApplicationController
     if params[:search] and params[:search][:id]
       @state_first = GeoinfoState.find(params[:search][:id])
     end
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license] and params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first

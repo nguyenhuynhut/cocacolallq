@@ -69,6 +69,13 @@ class LiquorLicensesController < ApplicationController
   def new
     @liquor_license = LiquorLicense.new
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @cities_first = GeoinfoCity.where(:state_id => '2').find :all, :order => "name asc"
+    @selected_city = nil
+    logger.info @cities_first
+    if @liquor_license.city_id
+      @selected_city = GeoinfoCity.find(@liquor_license.city_id)
+
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @liquor_license }
@@ -80,7 +87,7 @@ class LiquorLicensesController < ApplicationController
     @liquor_license = LiquorLicense.find(params[:id])
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     @state_first = GeoinfoState.find(@liquor_license.state_id)
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if @liquor_license.city_id
       @selected_city = GeoinfoCity.find(@liquor_license.city_id)
@@ -97,7 +104,7 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license][:state_id]
       @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
     end
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
@@ -176,7 +183,7 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
       @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
     end
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license] and params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
@@ -217,7 +224,7 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
       @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
     end
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license] and params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
@@ -267,7 +274,7 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license] and params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
       @state_first = GeoinfoState.find(params[:liquor_license][:state_id])
     end
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
     @selected_city = nil
     if params[:liquor_license] and params[:liquor_license][:city_id] 
       @selected_city = GeoinfoCity.where(:id => params[:liquor_license][:city_id]).first
