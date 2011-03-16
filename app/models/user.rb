@@ -173,8 +173,10 @@ class User < ActiveRecord::Base
           #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
           if link_detail.at('a')
             if link_detail.at('a').text != nil and link_detail.at('a').text != ''
+              if link_detail.at('a').text.index('-')
               index = link_detail.at('a').text.index('-') - 1
               title = link_detail.at('a').text[0, index]
+              end
             end
             url = link_detail.at('a')['href']
             doc_detail_more = Nokogiri::HTML(open(url))
