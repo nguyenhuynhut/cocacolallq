@@ -1,6 +1,6 @@
 require 'geoinfo'
 class HomeController < ApplicationController
-  sortable_attributes :title , :city_id, :state_id , :expiration_date, :price, :license_type_id
+  sortable_attributes :title  , :expiration_date, :price
   def index
     if session[:user_id]
       @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
@@ -11,7 +11,7 @@ class HomeController < ApplicationController
     
     conditions[:today] = Date.today()
     conditions[:before] = Date.today() - 60
-    result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND  created_at >= :before", conditions).find :all, :order => sort_order
+    result = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND  created_at >= :before", conditions).find :all, :order => sort_order, :limit => 1000
     @liquor_licenses = result.paginate(:page => params[:page] ,:per_page => 20)
   end
   def search

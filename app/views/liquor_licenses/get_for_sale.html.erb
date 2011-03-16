@@ -21,16 +21,16 @@
   <%= f.select(:state_id, GeoinfoState.find(:all, :order => 'name asc').collect {|c| [ c.name, c.id ] }, :selected  => params[:liquor_license] ? params[:liquor_license][:state_id] : '', :include_blank => true) %> 
   <%= f.label :city %>
   <%= f.select(:city_id, @cities_first ? @cities_first.collect {|c| [ c.name, c.id ]} : '', :selected => @selected_city ? @selected_city.id : '' , :include_blank => true) %> 
-    <%= f.label :license_type %>
-   <%= f.select(:license_type_id, LicenseType.find(:all, :order => 'license_code asc').collect {|c| [c.license_code + '-' + c.description, c.id ] },  :selected  => params[:liquor_license] ? params[:liquor_license][:license_type_id] : '', :include_blank => true) %> 
+  <%= f.label :license_type %>
+  <%= f.select(:license_type_id, LicenseType.find(:all, :order => 'license_code asc').collect {|c| [c.license_code + '-' + c.description, c.id ] },  :selected  => params[:liquor_license] ? params[:liquor_license][:license_type_id] : '', :include_blank => true) %> 
   <h1>Listing Liquor Licenses for Sale</h1>
 
   <table>
     <tr>
       <%= sortable_table_header :name => "Title",  :sort => "title" %>
-      <%= sortable_table_header :name => "State", :sort => "state" %>
-      <%= sortable_table_header :name => "City",   :sort => "city" %>
-      <%= sortable_table_header :name => "License Type",   :sort => "license_type_id" %>
+      <th>State</th>
+      <th>City</th>
+      <th>License Type</th>
       <%= sortable_table_header :name => "Expiration Date", :sort => "expiration_date" %>
 
       <th></th>
@@ -42,7 +42,7 @@
         <td><%= liquor_license.title %></td>
         <td><%= GeoinfoState.find(liquor_license.state_id).name %></td>
         <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
-           <td><%= liquor_license.license_type.license_code + '-' + liquor_license.license_type.description %></td>
+        <td><%= liquor_license.license_type.license_code + '-' + liquor_license.license_type.description %></td>
         <td><%= liquor_license.expiration_date %></td>
         <td><%= link_to 'View', :action => "view" , :id => liquor_license.id %></td>
       </tr>

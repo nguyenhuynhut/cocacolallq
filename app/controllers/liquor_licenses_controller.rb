@@ -5,7 +5,7 @@ require "sortable_table"
 class LiquorLicensesController < ApplicationController
   # GET /liquor_licenses
   # GET /liquor_licenses.xml
-  sortable_attributes :title , :city_id, :state_id , :expiration_date, :price, :license_type_id
+  sortable_attributes :title , :expiration_date, :price
   def index
     result = LiquorLicense.joins(:user).where("users.username = :username", {:username => session[:user_id]})
     logger.info session[:user_id]
