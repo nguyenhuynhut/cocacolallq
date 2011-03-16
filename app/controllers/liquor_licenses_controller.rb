@@ -192,8 +192,8 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
         logger.info 'aa'
-        query_string = query_string + " AND title LIKE :title"  
-        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
+        query_string = query_string + " AND UPPER(title) LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip.upcase + "%"
       end
       if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
         query_string = query_string + " AND state_id = :state_id"  
@@ -232,8 +232,8 @@ class LiquorLicensesController < ApplicationController
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
         logger.info 'ba gia'
-        query_string = query_string + " AND title LIKE :title"  
-        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
+        query_string = query_string + " AND UPPER(title) LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip.upcase + "%"
       end
       if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
         query_string = query_string + " AND state_id = :state_id"  
@@ -281,8 +281,8 @@ class LiquorLicensesController < ApplicationController
     end
     if params[:liquor_license]
       if params[:liquor_license][:title] != nil and params[:liquor_license][:title] != ''
-        query_string = query_string + " AND title LIKE :title"  
-        conditions[:title] = "%" + params[:liquor_license][:title].strip + "%"
+        query_string = query_string + " AND UPPER(title) LIKE :title"  
+        conditions[:title] = "%" + params[:liquor_license][:title].strip.upcase + "%"
       end
       if params[:liquor_license][:state_id] != nil and params[:liquor_license][:state_id] != ''
         query_string = query_string + " AND state_id = :state_id"  
