@@ -185,7 +185,7 @@ class User < ActiveRecord::Base
             index = link_detail.content.split('$')[1].index(' ') - 1
             price = link_detail.content.split('$')[1][0..index].to_i
           end
-          liquor_license = LiquorLicense.where(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell',  :state_id => state_id , :city_id => city_id).first
+          liquor_license = LiquorLicense.where( :state_id => @state_id , :city_id => @city_id, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell').first
           if liquor_license == nil
             if @state_id and @city_id
             liquor_license = LiquorLicense.new( :state_id => @state_id.to_i , :city_id => @city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
