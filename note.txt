@@ -21,4 +21,5 @@ http://ganeshprasadsr.blogspot.com/2010/10/installing-nokogiri-for-rails-3-app-o
 http://www.dotweekly.com/better-option-for-domain-sales-then-a-paypal-button
 <% if @liquor_license.price != 0 and @liquor_license.price != nil %>
 <%= button_to "Pay through Paypal", :action => "paypal_request" , :id => @liquor_license.id%>
-<% end %>
+<% end %>h
+ttp://railsguides.heroku.com/3.0.0/action_controller_overview.html
