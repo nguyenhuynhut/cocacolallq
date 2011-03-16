@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
           created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
           #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
           if link_detail.at('a')
-            if link_detail.at('a').text != nil and link_detail.at('a').text
+            if link_detail.at('a').text != nil and link_detail.at('a').text != ''
               index = link_detail.at('a').text.index('-') - 1
               title = link_detail.at('a').text[0, index]
             end
