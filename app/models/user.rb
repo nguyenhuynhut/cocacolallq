@@ -178,6 +178,8 @@ class User < ActiveRecord::Base
                 end
               end
               url = link_detail.at('a')['href']
+              logger.info 'aa'
+              logger.info url
               if url 
                 doc_detail_more = Nokogiri::HTML(open(url))
                 if doc_detail_more
