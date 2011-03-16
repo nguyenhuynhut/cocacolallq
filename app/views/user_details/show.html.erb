@@ -5,12 +5,12 @@
 </p>
 <p>
   <b>Real name:</b>
-  <%= @user_detail.real_name %>
+  <%= html_escape(@user_detail.real_name) %>
 </p>
 
 <p>
   <b>Street address:</b>
-  <%= @user_detail.street_address %>
+  <%= html_escape(@user_detail.street_address) %>
 </p>
 
 <p>

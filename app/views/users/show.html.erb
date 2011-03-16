@@ -2,12 +2,12 @@
 
 <p>
   <b>Email:</b>
-  <%= @user.email %>
+  <%= html_escape(@user.email) %>
 </p>
 
 <p>
   <b>Username:</b>
-  <%= @user.username %>
+  <%= html_escape(@user.username) %>
 </p>
 
 <p>

@@ -2,12 +2,12 @@
 
 <p>
   <b>License code:</b>
-  <%= @license_type.license_code %>
+  <%= html_escape(@license_type.license_code) %>
 </p>
 
 <p>
   <b>Description:</b>
-  <%= @license_type.description %>
+  <%= html_escape(@license_type.description) %>
 </p>
 
 

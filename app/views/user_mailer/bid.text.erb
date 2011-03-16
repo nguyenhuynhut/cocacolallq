@@ -1,10 +1,10 @@
-My Username : <%= @user.username %>
-I want to bid your liquor license : <%= @liquor_license.title %>
+My Username : <%= html_escape(@user.username) %>
+I want to bid your liquor license : <%= html_escape(@liquor_license.title) %>
 Price : <%= @price %>$
 <%= @message %>
 Best Regards
 <% if @user.user_detail  %>
   <% if @user.user_detail.real_name  %>
-<%= @user.user_detail.real_name  %>
+<%= html_escape(@user.user_detail.real_name)  %>
   <% end %>
 <% end %>

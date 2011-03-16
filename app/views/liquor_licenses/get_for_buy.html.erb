@@ -44,7 +44,7 @@
 
     <% @liquor_licenses.each do |liquor_license| %>
       <tr>
-        <td><%= liquor_license.title %></td>
+        <td><%= html_escape(liquor_license.title) %></td>
         <td><%= liquor_license.state_id ? GeoinfoState.find(liquor_license.state_id).name : '' %></td>
         <td><%= liquor_license.city_id ? GeoinfoCity.find(liquor_license.city_id).name : '' %></td>
         <td><%= liquor_license.license_type ? liquor_license.license_type.license_code + '-' + liquor_license.license_type.description : ''%></td>

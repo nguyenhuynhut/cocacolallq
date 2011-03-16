@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <p> License Title : <%= @bid_activity.liquor_license_auction.liquor_license.title %> <p/>
+    <p> License Title : <%= html_escape(@bid_activity.liquor_license_auction.liquor_license.title) %> <p/>
     <p> State : <%=  @bid_activity.liquor_license_auction.liquor_license.state_id ?  GeoinfoState.find(@bid_activity.liquor_license_auction.liquor_license.state_id).name : ''%> <p/>
     <p>  City : <%=  @bid_activity.liquor_license_auction.liquor_license.city_id ? GeoinfoCity.find(@bid_activity.liquor_license_auction.liquor_license.city_id).name : ''  %><p/>
     <p> License Type : <%= @bid_activity.liquor_license_auction.liquor_license.license_type ? @bid_activity.liquor_license_auction.liquor_license.license_type.license_code + '-' + @bid_activity.liquor_license_auction.liquor_license.license_type.description : '' %><p/>

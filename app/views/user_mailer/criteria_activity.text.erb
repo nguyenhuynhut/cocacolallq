@@ -1,6 +1,6 @@
 <% @user.criteria_activities.each do |criteria_activity| %>
   <% if criteria_activity.status == false %>
-    License Title : <%= criteria_activity.liquor_license.title %>
+    License Title : <%= html_escape(criteria_activity.liquor_license.title) %>
     State : <%=  criteria_activity.liquor_license.state_id ?  GeoinfoState.find(criteria_activity.liquor_license.state_id).name : ''%> 
     City : <%=  criteria_activity.liquor_license.city_id ? GeoinfoCity.find(criteria_activity.liquor_license.city_id).name : ''  %>
     License Type : <%=  criteria_activity.liquor_license.license_type ? criteria_activity.liquor_license.license_type.license_code + '-' + criteria_activity.liquor_license.license_type.description : '' %>

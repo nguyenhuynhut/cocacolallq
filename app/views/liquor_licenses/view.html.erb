@@ -3,7 +3,7 @@
 
 <p>
   <b>Title:</b>
-  <%= @liquor_license.title %>
+  <%= html_escape(@liquor_license.title) %>
 </p>
 <p>
   <b>License Type:</b>

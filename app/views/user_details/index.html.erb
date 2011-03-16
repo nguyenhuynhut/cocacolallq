@@ -14,8 +14,8 @@
 
 <% @user_details.each do |user_detail| %>
   <tr>
-    <td><%= user_detail.real_name %></td>
-    <td><%= user_detail.street_address %></td>
+    <td><%= html_escape(user_detail.real_name) %></td>
+    <td><%= html_escape(user_detail.street_address) %></td>
     <td><%= user_detail.city %></td>
     <td><%= user_detail.state %></td>
     <td><%= user_detail.post_code %></td>

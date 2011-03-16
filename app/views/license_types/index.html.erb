@@ -11,8 +11,8 @@
 
 <% @license_types.each do |license_type| %>
   <tr>
-    <td><%= license_type.license_code %></td>
-    <td><%= license_type.description %></td>
+    <td><%= html_escape(license_type.license_code) %></td>
+    <td><%= html_escape(license_type.description) %></td>
     <td><%= link_to 'Show', license_type %></td>
     <td><%= link_to 'Edit', edit_license_type_path(license_type) %></td>
     <td><%= link_to 'Destroy', license_type, :confirm => 'Are you sure?', :method => :delete %></td>

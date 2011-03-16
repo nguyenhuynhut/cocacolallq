@@ -6,10 +6,10 @@
   <body>
 
     <p>
-      My Username : <%= @user.username %>
+      My Username : <%= html_escape(@user.username) %>
     </p>
     <p>
-      I want to bid your liquor license : <%= @liquor_license.title %>
+      I want to bid your liquor license : <%= html_escape(@liquor_license.title) %>
     </p>
     <p>
       Price : <%= @price %>$
@@ -23,7 +23,7 @@
     <% if @user.user_detail  %>
       <% if @user.user_detail.real_name  %>
         <p>
-          <%= @user.user_detail.real_name  %>
+          <%= html_escape(@user.user_detail.real_name)  %>
         </p>
       <% end %>
     <% end %>

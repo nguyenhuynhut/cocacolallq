@@ -6,13 +6,13 @@
   <body>
 
     <p>
-      My Username : <%= @user.username %>
+      My Username : <%= html_escape(@user.username) %>
 
     </p>
     <% if @user.user_detail  %>
       <% if @user.user_detail.real_name  %>
         <p>
-          My Real Name : <%= @user.user_detail.real_name %>
+          My Real Name : <%= html_escape(@user.user_detail.real_name) %>
         </p>
       <% end %>
     <% end %>
@@ -39,7 +39,7 @@
     <% if @user.user_detail  %>
       <% if @user.user_detail.real_name  %>
         <p>
-          <%= @user.user_detail.real_name  %>
+          <%= html_escape(@user.user_detail.real_name)  %>
         </p>
       <% end %>
     <% end %>
