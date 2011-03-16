@@ -93,6 +93,21 @@ class LiquorLicensesController < ApplicationController
       @selected_city = GeoinfoCity.find(@liquor_license.city_id)
 
     end
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user.id != @liquor_license.user_id
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
   end
 
   # POST /liquor_licenses
@@ -361,7 +376,7 @@ class LiquorLicensesController < ApplicationController
         if city_result 
           state_result = GeoinfoState.find(city_result.state_id)
           if state_result
-          state_id = city_result.state_id
+            state_id = city_result.state_id
           end
           city_id = city_result.id
         end        

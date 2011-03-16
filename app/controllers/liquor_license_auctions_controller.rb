@@ -1,6 +1,8 @@
 class LiquorLicenseAuctionsController < ApplicationController
   # GET /liquor_license_auctions
   # GET /liquor_license_auctions.xml
+    # Check that the user has the right authorization to access clients.
+  before_filter :user_not_authorized
   def index
     @liquor_license_auctions = LiquorLicenseAuction.all
 
@@ -78,6 +80,26 @@ class LiquorLicenseAuctionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(liquor_license_auctions_url) }
       format.xml  { head :ok }
+    end
+  end
+  private
+
+  def user_not_authorized
+    
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user.username != 'admin'
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
     end
   end
 end

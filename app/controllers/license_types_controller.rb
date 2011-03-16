@@ -1,6 +1,7 @@
 class LicenseTypesController < ApplicationController
   # GET /license_types
   # GET /license_types.xml
+    before_filter :user_not_authorized
   def index
     @license_types = LicenseType.all
 
@@ -80,4 +81,23 @@ class LicenseTypesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+    def user_not_authorized
+    
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user.username != 'admin'
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
+  end
+  
 end
