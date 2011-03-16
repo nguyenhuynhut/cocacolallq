@@ -155,6 +155,9 @@ class User < ActiveRecord::Base
             @state_id = city_result.state_id
           end
           @city_id = city_result.id
+          puts 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+          puts @state_id
+          puts @city_id
         end        
         doc_detail = Nokogiri::HTML(open(link['href'] + '/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
         doc_detail.xpath('//p[@class="row"]').each do |link_detail|
