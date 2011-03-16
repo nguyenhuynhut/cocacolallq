@@ -56,7 +56,7 @@ class LiquorLicensesController < ApplicationController
   # GET /liquor_licenses/1.xml
   def show
     @liquor_license = LiquorLicense.find(params[:id])
-    @liquor_license_auctions = LiquorLicenseAuction.where(:liquor_License_id  => params[:id]).find :all, :order => 'price desc'
+    @liquor_license_auctions = LiquorLicenseAuction.where(:liquor_license_id  => params[:id]).find :all, :order => 'price desc'
     logger.info @liquor_license_auctions
     respond_to do |format|
       format.html # show.html.erb
