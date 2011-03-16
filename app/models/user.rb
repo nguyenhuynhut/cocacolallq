@@ -188,7 +188,7 @@ class User < ActiveRecord::Base
           liquor_license = LiquorLicense.where(:title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell',  :state_id => state_id , :city_id => city_id).first
           if liquor_license == nil
             if state_id and city_id
-            liquor_license = LiquorLicense.new( :state_id => state_id , :city_id => city_id, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
+            liquor_license = LiquorLicense.new( :state_id => state_id.to_i , :city_id => city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
             
             liquor_license.save
             end
