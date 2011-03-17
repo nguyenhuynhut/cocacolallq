@@ -2,10 +2,23 @@ require 'geoinfo'
 class CriteriasController < ApplicationController
   # GET /criterias
   # GET /criterias.xml
-  before_filter :user_not_authorized
   def index
     @criterias = Criteria.all
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
+      if @valid_user.username != 'admin'
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @criterias }
@@ -26,8 +39,29 @@ class CriteriasController < ApplicationController
   # GET /criterias/new
   # GET /criterias/new.xml
   def new
-    @criteria = Criteria.new
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
+      if @valid_user == nil
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
+    @criteria = Criteria.new
+    @cities_first = GeoinfoCity.where(:state_id => '2').find :all, :order => "name asc"
+    @selected_city = nil
+    logger.info @cities_first
+    if @criteria.city_id
+      @selected_city = GeoinfoCity.find(@criteria.city_id)
+
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @criteria }
@@ -37,6 +71,21 @@ class CriteriasController < ApplicationController
   # GET /criterias/1/edit
   def edit
     @criteria = Criteria.find(params[:id])
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user.id != @criteria.user_id
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
     @state_first = GeoinfoState.find(@criteria.state_id)
     @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
     @selected_city = nil
@@ -44,6 +93,7 @@ class CriteriasController < ApplicationController
       @selected_city = GeoinfoCity.find(@criteria.city_id)
 
     end
+
   end
 
   # POST /criterias
@@ -102,22 +152,5 @@ class CriteriasController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  def user_not_authorized
-    
-    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
-    if session[:user_id] != nil and session[:user_id] != ''
-      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
-      if @valid_user.username != 'admin'
-        flash[:error] = "You don't have access to this section." 
-        redirect_to '/'
-        return
-      end 
-      
-    else
-      flash[:error] = "You don't have access to this section." 
-      redirect_to '/'
-      return
-    end
-  end
 end

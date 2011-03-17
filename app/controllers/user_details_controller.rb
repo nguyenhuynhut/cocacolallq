@@ -38,8 +38,29 @@ class UserDetailsController < ApplicationController
   # GET /user_details/new
   # GET /user_details/new.xml
   def new
-    @user_detail = UserDetail.new
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
+      if @valid_user == nil
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
+    @user_detail = UserDetail.new
+    @cities_first = GeoinfoCity.where(:state_id => '2').find :all, :order => "name asc"
+    @selected_city = nil
+    logger.info @cities_first
+    if @user_detail.city_id
+      @selected_city = GeoinfoCity.find(@user_detail.city_id)
+
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user_detail }
@@ -49,13 +70,6 @@ class UserDetailsController < ApplicationController
   # GET /user_details/1/edit
   def edit
     @user_detail = UserDetail.find(params[:id])
-    @state_first = GeoinfoState.find(@user_detail.state_id)
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
-    @selected_city = nil
-    if @user_detail.city_id
-      @selected_city = GeoinfoCity.find(@user_detail.city_id)
-
-    end
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     if session[:user_id] != nil and session[:user_id] != ''
       @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
@@ -71,6 +85,15 @@ class UserDetailsController < ApplicationController
       redirect_to '/'
       return
     end
+   
+    @state_first = GeoinfoState.find(@user_detail.state_id)
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '0').find :all, :order => "name asc"
+    @selected_city = nil
+    if @user_detail.city_id
+      @selected_city = GeoinfoCity.find(@user_detail.city_id)
+
+    end
+
   end
 
   # POST /user_details

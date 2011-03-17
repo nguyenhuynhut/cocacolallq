@@ -67,6 +67,21 @@ class LiquorLicensesController < ApplicationController
   # GET /liquor_licenses/new
   # GET /liquor_licenses/new.xml
   def new
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user == nil
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
     @liquor_license = LiquorLicense.new
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     @cities_first = GeoinfoCity.where(:state_id => '2').find :all, :order => "name asc"
@@ -86,14 +101,6 @@ class LiquorLicensesController < ApplicationController
   def edit
     @liquor_license = LiquorLicense.find(params[:id])
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
-    @state_first = GeoinfoState.find(@liquor_license.state_id)
-    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
-    @selected_city = nil
-    if @liquor_license.city_id
-      @selected_city = GeoinfoCity.find(@liquor_license.city_id)
-
-    end
-    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
     if session[:user_id] != nil and session[:user_id] != ''
       @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
@@ -108,6 +115,15 @@ class LiquorLicensesController < ApplicationController
       redirect_to '/'
       return
     end
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    @state_first = GeoinfoState.find(@liquor_license.state_id)
+    @cities_first = GeoinfoCity.where(:state_id => @state_first ? @state_first.id : '2').find :all, :order => "name asc"
+    @selected_city = nil
+    if @liquor_license.city_id
+      @selected_city = GeoinfoCity.find(@liquor_license.city_id)
+
+    end
+
   end
 
   # POST /liquor_licenses
