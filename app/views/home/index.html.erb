@@ -37,11 +37,11 @@
     <%= link_to 'My Criteria', new_criteria_path%>
   <% end %>
 
-
-
-<% end %>
 |
 <%= link_to "Contact Us",:controller => "users", :action => "contact_us" %>
+
+<% end %>
+
 
 <%= form_for :search, :url => { :action => "search" } do |f| %>
 
