@@ -10,15 +10,15 @@ scheduler.every("1h") do
   puts 'Check bid'
   puts User.check_bid
 end
-scheduler.every("1m") do
+scheduler.every("2h") do
   puts "Check Criteria"
   puts User.check_criteria
 end
-scheduler.every("1m") do
+scheduler.every("3h") do
   puts "Send Mail Criteria"
   puts User.sendmail_criteria_activity
 end
-scheduler.every("1h") do
+scheduler.every("2h") do
   puts "Send Mail Bit"
   puts User.sendmail_bid_activity
 end
