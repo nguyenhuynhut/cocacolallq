@@ -31,10 +31,11 @@
 
   <%= link_to 'My Auction', :controller => "liquor_licenses", :action => "get_my_auction"%>
   |
-  <%if @valid_user.criteria %>
-    <%= link_to 'My Criteria', edit_criteria_path(@valid_user.criteria) %>
+  <%if @valid_user.criterias %>
+    <%= link_to 'My Criteria', criterias_path %>
+  
   <% else %>
-    <%= link_to 'My Criteria', new_criteria_path%>
+    <%= link_to 'New Criteria', new_criteria_path%>
   <% end %>
 
 |

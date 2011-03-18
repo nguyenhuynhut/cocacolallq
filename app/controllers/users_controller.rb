@@ -43,13 +43,24 @@ class UsersController < ApplicationController
   # GET /users/new.xml
   def new
     @user = User.new
-
+    logger.info 'huyen anh'
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }
     end
   end
-
+  def confirm
+    
+    @user = User.new(params[:user])
+    unless @user.valid?
+      render :action => :new     
+    else 
+      respond_to do |format|
+        format.html # new.html.erb
+        format.xml  { render :xml => @user }
+      end
+    end
+  end
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
@@ -90,7 +101,7 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
-
+    logger.info 'ffffff'
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }

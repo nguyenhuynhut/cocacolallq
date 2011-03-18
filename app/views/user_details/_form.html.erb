@@ -46,10 +46,6 @@ $(function(){
     <%= f.label :post_code %><br />
     <%= f.text_field :post_code %>
   </div>
-  <div class="field">
-    <%= f.label :paypal_account %><br />
-    <%= f.text_field :paypal_account %>
-  </div>
 <p>
   <%= image_tag @user_detail.avatar ? @user_detail.avatar : 'logo.jpg', :size => "60x60" %>
 </p>
@@ -57,15 +53,10 @@ $(function(){
     Logo<br />
     <%= file_field_tag 'logo' %>
   </p>
-  <div class="field">
-    <%= f.label :birth_date %><br />
-    <%= f.date_select :birth_date %>
-  </div>
    <div class="field">
       <%= f.label :gender %><br />
       <%= f.radio_button "gender", "Male" %>Male
       <%= f.radio_button "gender", "Female" %>Female
-      <%= f.radio_button "gender", "" %>Rather not say
     </div>
   <div class="actions">
     <%= f.submit %>

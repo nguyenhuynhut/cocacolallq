@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   end
   has_many :liquor_licenses ,:dependent => :destroy
   has_one :user_detail, :dependent=> :destroy
-  has_one :criteria, :dependent => :destroy
+  has_many :criterias, :dependent => :destroy
   has_many :criteria_activities, :dependent => :destroy
   has_many :liquor_license_auctions
   has_many :bid_activities
@@ -27,15 +27,16 @@ class User < ActiveRecord::Base
     @users = User.find(:all)
     @users.each do |user|
       result = []
-      if user.criteria
+      user.criterias.each do |criteria|
+
         if user.kind == "Selling"
           conditions = {}
           conditions[:today] = Date.today()
           conditions[:purpose] = 'Buy'
           conditions[:user_id] = user.id
-          conditions[:state_id] = user.criteria.state_id
-          conditions[:city_id] = user.criteria.city_id
-          conditions[:license_type_id] = user.criteria.license_type_id
+          conditions[:state_id] = criteria.state_id
+          conditions[:city_id] = criteria.city_id
+          conditions[:license_type_id] = criteria.license_type_id
           result_selling = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND purpose = :purpose AND (user_id != :user_id or user_id IS NULL) AND state_id = :state_id AND city_id = :city_id AND license_type_id = :license_type_id" , conditions)
           if result_selling
             result = result + result_selling
@@ -46,9 +47,9 @@ class User < ActiveRecord::Base
           conditions[:today] = Date.today()
           conditions[:purpose] = 'Sell'
           conditions[:user_id] = user.id
-          conditions[:state_id] = user.criteria.state_id
-          conditions[:city_id] = user.criteria.city_id
-          conditions[:license_type_id] = user.criteria.license_type_id
+          conditions[:state_id] = criteria.state_id
+          conditions[:city_id] = criteria.city_id
+          conditions[:license_type_id] = criteria.license_type_id
           result_buying = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND purpose = :purpose AND (user_id != :user_id or user_id IS NULL) AND state_id = :state_id AND city_id = :city_id AND license_type_id = :license_type_id" , conditions)
           if result_buying
             result = result + result_buying
@@ -58,25 +59,24 @@ class User < ActiveRecord::Base
           conditions = {}
           conditions[:today] = Date.today()
           conditions[:user_id] = user.id
-          conditions[:state_id] = user.criteria.state_id
-          conditions[:city_id] = user.criteria.city_id
-          conditions[:license_type_id] = user.criteria.license_type_id
+          conditions[:state_id] = criteria.state_id
+          conditions[:city_id] = criteria.city_id
+          conditions[:license_type_id] = criteria.license_type_id
           result_both = LiquorLicense.where("(expiration_date >= :today OR expiration_date IS NULL) AND (user_id != :user_id or user_id IS NULL) AND state_id = :state_id AND city_id = :city_id AND license_type_id = :license_type_id" , conditions)
           if result_both
             result = result + result_both
           end
         end
-
-      end
-      if result 
-        result.each do |liquor_license_each|
-          criteria_activity = CriteriaActivity.where(:liquor_license_id => liquor_license_each.id, :user_id => user.id).first
-          if criteria_activity == nil
-            criteria_activity = CriteriaActivity.new(:liquor_license_id => liquor_license_each.id, :user_id => user.id, :expiration_date => liquor_license_each.expiration_date, :status => false)
-            criteria_activity.save()
+        if result 
+          result.each do |liquor_license_each|
+            criteria_activity = CriteriaActivity.where(:liquor_license_id => liquor_license_each.id, :user_id => user.id).first
+            if criteria_activity == nil
+              criteria_activity = CriteriaActivity.new(:liquor_license_id => liquor_license_each.id, :user_id => user.id, :expiration_date => liquor_license_each.expiration_date, :status => false)
+              criteria_activity.save()
+            end
           end
-        end
 
+        end
       end
     end
     

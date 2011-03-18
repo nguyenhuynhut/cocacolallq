@@ -170,14 +170,26 @@ class LiquorLicensesController < ApplicationController
 
   # DELETE /liquor_licenses/1
   # DELETE /liquor_licenses/1.xml
-  def destroy
+  def delete_record
     @liquor_license = LiquorLicense.find(params[:id])
-    @liquor_license.destroy
+    @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
 
-    respond_to do |format|
-      format.html { redirect_to(liquor_licenses_url) }
-      format.xml  { head :ok }
+      if @valid_user.id != @liquor_license.user_id
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
     end
+    @liquor_license.destroy
+    redirect_to(request.env["HTTP_REFERER"])
+
   end
   def paypal_request
 

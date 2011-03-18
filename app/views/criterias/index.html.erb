@@ -1,9 +1,12 @@
+<%= link_to 'Home', home_index_path %>
+<p/>
 <h1>Listing criterias</h1>
 
 <table>
   <tr>
     <th>State</th>
     <th>City</th>
+    <th>License Type</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,11 +14,12 @@
 
 <% @criterias.each do |criteria| %>
   <tr>
-    <td><%= criteria.state %></td>
-    <td><%= criteria.city %></td>
+    <td>  <%= criteria.state_id ?  GeoinfoState.find(criteria.state_id).name : '' %></td>
+    <td>  <%= criteria.city_id ? GeoinfoCity.find(criteria.city_id).name : ''  %></td>
+    <td> <%= criteria.license_type ? criteria.license_type.license_code + '-' + criteria.license_type.description : '' %></td>
     <td><%= link_to 'Show', criteria %></td>
     <td><%= link_to 'Edit', edit_criteria_path(criteria) %></td>
-    <td><%= link_to 'Destroy', criteria, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><a href="criterias/delete_record/<%=  criteria.id %>" onclick="return confirm('Are you sure');" >Destroy</a> </td>
   </tr>
 <% end %>
 </table>

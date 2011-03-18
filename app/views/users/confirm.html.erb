@@ -1,0 +1,30 @@
+<h1>Thank you for registering to LiquorLicenseHQ.com </h1>
+<%= form_for(@user, :url => {:action => "create"}) do |f| %>
+<%= link_to 'Home', home_index_path %>
+<p/>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email:</b>
+  <%= html_escape(@user.email) %>
+</p>
+
+<p>
+  <b>Username:</b>
+  <%= html_escape(@user.username) %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @user.kind %>
+</p>
+<%= f.hidden_field :username , :value =>  @user.username %>
+<%= f.hidden_field :email , :value =>  @user.email %>
+<%= f.hidden_field :password , :value =>  @user.password %>
+<%= f.hidden_field :kind , :value =>  @user.kind %>
+ <div class="actions">
+    <%= f.submit 'Confirm User' %>
+  </div>
+<% end %>
+<%= link_to 'Back', new_user_path %>
+
