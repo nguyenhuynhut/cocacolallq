@@ -145,70 +145,117 @@ class User < ActiveRecord::Base
       if location[0].include? '/'
         location = location[0].split(/\//)
       end
-      for i in 0..(location.length - 1)
+      if location[0]
         conditions = {}
-        conditions[:name] = "%" + location[i].upcase  + "%" 
+        if location[0] == 'san francisco bay area'
+puts 'con ga'
+        end
+        conditions[:name] = "%" + location[0].upcase  + "%" 
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+        
         if city_result 
           state_result = GeoinfoState.find_by_id(city_result.state_id)
           if state_result
             @state_id = city_result.state_id
           end
           @city_id = city_result.id
-        end       
-        
-        doc_detail = Nokogiri::HTML(open(link['href'] + '/search/sss?query=liquor+license&srchType=T&minAsk=&maxAsk='))
-        if doc_detail
-          doc_detail.xpath('//p[@class="row"]').each do |link_detail|
-            index = link_detail.content.index('-') - 1
-            title = nil
-            url = nil
-            email = nil
-
-            license_type_id = nil
-
-            price = 0
-            created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
-            #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
-            if link_detail.at('a')
-              if link_detail.at('a').text != nil and link_detail.at('a').text != ''
-                if link_detail.at('a').text.index('-')
-                  index = link_detail.at('a').text.index('-') - 1
-                  title = link_detail.at('a').text[0, index]
-                end
+        else 
+          conditions[:name] = location[0].upcase 
+          puts'khoi dau'
+          city_result = GeoinfoCity.where(":name LIKE CONCAT('%',name,'%')", conditions).find(:all, :order => "population_2000 desc").first
+          city_results = GeoinfoCity.where(":name LIKE CONCAT('%',name,'%')", conditions).find(:all, :order => "population_2000 desc")
+          if city_results
+            city_results.each do |each_city_result|
+              if each_city_result.name.length > city_result.name.length 
+                city_result = each_city_result
+                puts 'aaaaaaaaaaaaaaaaaaaaaaaa'
               end
-              url = link_detail.at('a')['href']
-              logger.info 'aa'
-              logger.info url
-              if url 
-                begin
-                  doc_detail_more = Nokogiri::HTML(open(url))
-                  if doc_detail_more
-                    doc_detail_more.xpath('//a').each do |link_detail_more|
-                      if link_detail_more.text.include? '@craigslist.org'
-                        email = link_detail_more.text
+            end
+          end
+          
+          if city_result 
+            puts'ba gia no duoc roi'
+            state_result = GeoinfoState.find_by_id(city_result.state_id)
+            if state_result
+              
+              @state_id = city_result.state_id
+              puts @state_id 
+            end
+            @city_id = city_result.id
+            puts @city_id
+           
+          end
+        end 
+        
+        doc_detail = Nokogiri::HTML(open(link['href'] + '/search/bfs?query=liquor+license&catAbb=sss&srchType=A&minAsk=&maxAsk='))
+        if doc_detail
+          check = true
+          doc_detail.xpath('//h4[@class="ban"]').each do |check_detail| 
+            if check_detail.text == "Zero LOCAL results found. Here are some from NEARBY areas..."
+              check = false
+              puts 'ata lata'
+            end
+          end
+          if check 
+            doc_detail.xpath('//p[@class="row"]').each do |link_detail|
+
+              break if link_detail.next_sibling.text == "Few LOCAL results found. Here are some from NEARBY areas..." 
+              break if link_detail.next_sibling.text == "Zero LOCAL results found. Here are some from NEARBY areas..." 
+              if link_detail.next_sibling.text == "Few LOCAL results found. Here are some from NEARBY areas..." 
+                puts 'ba gia no'
+              end
+              index = link_detail.content.index('-') - 1
+              title = nil
+              url = nil
+              email = nil
+
+              license_type_id = nil
+
+              price = 0
+              created_at = Date.parse(link_detail.content[10..index] + Date.today().year().to_s )
+              #logger.info Date.strptime(link.content[10..index] + Date.today().year().to_s ,"%b %d %yyyy")
+              if link_detail.at('a')
+                if link_detail.at('a').text != nil and link_detail.at('a').text != ''
+                  if link_detail.at('a').text.index('-')
+                    index = link_detail.at('a').text.index('-') - 1
+                    title = link_detail.at('a').text[0, index]
+                  end
+                end
+                url = link_detail.at('a')['href']
+                logger.info 'aa'
+                logger.info url
+                if url 
+                  begin
+                    doc_detail_more = Nokogiri::HTML(open(url))
+                    if doc_detail_more
+                      doc_detail_more.xpath('//a').each do |link_detail_more|
+                        if link_detail_more.text.include? '@craigslist.org'
+                          email = link_detail_more.text
+                        end
                       end
                     end
+                  rescue
+                    [404, { 'Content-Type' => 'text/plain' }, ['File not found.']]
                   end
-                rescue
-                  [404, { 'Content-Type' => 'text/plain' }, ['File not found.']]
                 end
               end
-            end
-            if link_detail.content.split('$').length == 2
-              index = link_detail.content.split('$')[1].index(' ') - 1
-              price = link_detail.content.split('$')[1][0..index].to_i
-            end
-            liquor_license = LiquorLicense.where( :state_id => @state_id , :city_id => @city_id, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell').first
-            if liquor_license == nil
-              if @state_id and @city_id
-                liquor_license = LiquorLicense.new( :state_id => @state_id.to_i , :city_id => @city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
+              if link_detail.content.split('$').length == 2
+                index = link_detail.content.split('$')[1].index(' ') - 1
+                price = link_detail.content.split('$')[1][0..index].to_i
+              end
+              liquor_license = LiquorLicense.where( :state_id => @state_id.to_i , :city_id => @city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell').first
+              if liquor_license == nil
+                if @state_id and @city_id
+                  liquor_license = LiquorLicense.new( :state_id => @state_id.to_i , :city_id => @city_id.to_i, :title => title , :price => price, :from_host => 'craigslist', :purpose => 'Sell', :created_at => created_at , :updated_at => created_at)
             
-                liquor_license.save
+                  liquor_license.save
+                end
               end
             end
           end
         end
+        @city_id = nil
+        @state_id = nil
       end 
     end
   end
