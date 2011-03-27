@@ -162,8 +162,8 @@ puts 'con ga'
         else 
           conditions[:name] = location[0].upcase 
           conditions[:char_like] = "%"
-          city_result = GeoinfoCity.where(":name LIKE CONCAT(:char_like, name, :char_like)", conditions).find(:all, :order => "population_2000 desc").first
-          city_results = GeoinfoCity.where(":name LIKE CONCAT(:char_like, name, :char_like)", conditions).find(:all, :order => "population_2000 desc")
+          city_result = GeoinfoCity.where(":name LIKE  CONCAT( CAST( :char_like AS CHAR ) , CAST( name AS CHAR ), CAST( :char_like AS CHAR ) )", conditions).find(:all, :order => "population_2000 desc").first
+          city_results = GeoinfoCity.where(":name LIKE CONCAT( CAST( :char_like AS CHAR ) , CAST( name AS CHAR ), CAST( :char_like AS CHAR ) )", conditions).find(:all, :order => "population_2000 desc")
           if city_results
             logger.info 'co du lieu'
             city_results.each do |each_city_result|
