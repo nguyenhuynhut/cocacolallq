@@ -147,12 +147,7 @@ class User < ActiveRecord::Base
       end
       if location[0]
         conditions = {}
-        if location[0] == 'san francisco bay area'
-          puts 'con ga'
-        end
         conditions[:name] =  location[0].upcase  
-        puts location[0]
-        puts 'sssss'
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
         
         if city_result 
@@ -166,19 +161,15 @@ class User < ActiveRecord::Base
           if location[0].upcase.split(" ").length >= 2
             check_location = location[0].sub("county", '').sub("bay", '').sub("area", '')
             conditions[:name] =  check_location.upcase.strip   
-            puts conditions[:name]
             city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
             if city_result 
-              puts'ba gia no duoc roi'
               state_result = GeoinfoState.find_by_id(city_result.state_id)
               if state_result
               
                 @state_id = city_result.state_id
-                puts @state_id 
               end
               @city_id = city_result.id
-              puts @city_id
-           
+         
             end
           end
 
@@ -192,7 +183,6 @@ class User < ActiveRecord::Base
           doc_detail.xpath('//h4[@class="ban"]').each do |check_detail| 
             if check_detail.text == "Zero LOCAL results found. Here are some from NEARBY areas..."
               check = false
-              puts 'ata lata'
             end
           end
           if check 
@@ -200,9 +190,6 @@ class User < ActiveRecord::Base
 
               break if link_detail.next_sibling.text == "Few LOCAL results found. Here are some from NEARBY areas..." 
               break if link_detail.next_sibling.text == "Zero LOCAL results found. Here are some from NEARBY areas..." 
-              if link_detail.next_sibling.text == "Few LOCAL results found. Here are some from NEARBY areas..." 
-                puts 'ba gia no'
-              end
               index = link_detail.content.index('-') - 1
               title = nil
               url = nil
