@@ -162,8 +162,8 @@ puts 'con ga'
         else 
           conditions[:name] = location[0].upcase 
           puts'khoi dau'
-          city_result = GeoinfoCity.where(":name LIKE CONCAT(CAST('%' AS text),name,CAST('%' AS text))", conditions).find(:all, :order => "population_2000 desc").first
-          city_results = GeoinfoCity.where(":name LIKE CONCAT(CAST('%' AS text),name,CAST('%' AS text))", conditions).find(:all, :order => "population_2000 desc")
+          city_result = GeoinfoCity.where(":name LIKE CONCAT(CAST('%' AS char),name,CAST('%' AS char))", conditions).find(:all, :order => "population_2000 desc").first
+          city_results = GeoinfoCity.where(":name LIKE CONCAT(CAST('%' AS char),name,CAST('%' AS char))", conditions).find(:all, :order => "population_2000 desc")
           if city_results
             city_results.each do |each_city_result|
               if each_city_result.name.length > city_result.name.length 
