@@ -161,7 +161,7 @@ puts 'con ga'
           @city_id = city_result.id
         else 
           conditions[:name] = location[0].upcase 
-          conditions[:char_like] = '%'
+          conditions[:char_like] = "%"
           city_result = GeoinfoCity.where(":name LIKE CONCAT(:char_like, name, :char_like)", conditions).find(:all, :order => "population_2000 desc").first
           city_results = GeoinfoCity.where(":name LIKE CONCAT(:char_like, name, :char_like)", conditions).find(:all, :order => "population_2000 desc")
           if city_results
