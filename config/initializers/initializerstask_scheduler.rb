@@ -22,7 +22,7 @@ scheduler.every("3h") do
   puts "Send Mail Bit"
   puts User.sendmail_bid_activity
 end
-scheduler.every("4h") do
+scheduler.every("2m") do
   puts "Get Craigslist"
   puts User.get_craigslist
 end

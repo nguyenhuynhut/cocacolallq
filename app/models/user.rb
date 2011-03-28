@@ -148,9 +148,11 @@ class User < ActiveRecord::Base
       if location[0]
         conditions = {}
         if location[0] == 'san francisco bay area'
-puts 'con ga'
+          puts 'con ga'
         end
-        conditions[:name] = "%" + location[0].upcase  + "%" 
+        conditions[:name] =  location[0].upcase  
+        puts location[0]
+        puts 'sssss'
         city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
         
         if city_result 
@@ -160,32 +162,28 @@ puts 'con ga'
           end
           @city_id = city_result.id
         else 
-          conditions[:name] = location[0].upcase 
-          conditions[:char_like] = "%"
-          city_result = GeoinfoCity.where(":name LIKE  :char_like || name || :char_like", conditions).find(:all, :order => "population_2000 desc").first
-          city_results = GeoinfoCity.where(":name LIKE :char_like || name || :char_like", conditions).find(:all, :order => "population_2000 desc")
-          if city_results
-            logger.info 'co du lieu'
-            city_results.each do |each_city_result|
-              if each_city_result.name.length > city_result.name.length 
-                city_result = each_city_result
-                puts 'aaaaaaaaaaaaaaaaaaaaaaaa'
-              end
-            end
-          end
-          
-          if city_result 
-            puts'ba gia no duoc roi'
-            state_result = GeoinfoState.find_by_id(city_result.state_id)
-            if state_result
+          check_location = nil
+          if location[0].upcase.split(" ").length >= 2
+            check_location = location[0].sub("county", '').sub("bay", '').sub("area", '')
+            conditions[:name] =  check_location.upcase.strip   
+            puts conditions[:name]
+            city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+            if city_result 
+              puts'ba gia no duoc roi'
+              state_result = GeoinfoState.find_by_id(city_result.state_id)
+              if state_result
               
-              @state_id = city_result.state_id
-              puts @state_id 
-            end
-            @city_id = city_result.id
-            puts @city_id
+                @state_id = city_result.state_id
+                puts @state_id 
+              end
+              @city_id = city_result.id
+              puts @city_id
            
+            end
           end
+
+          
+
         end 
         
         doc_detail = Nokogiri::HTML(open(link['href'] + '/search/bfs?query=liquor+license&catAbb=sss&srchType=A&minAsk=&maxAsk='))
