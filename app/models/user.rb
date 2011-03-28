@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
       if location[0]
         conditions = {}
         conditions[:name] =  location[0].upcase  
-        city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+        city_result = GeoinfoCity.where("name = :name", conditions).find(:all, :order => "population_2000 desc").first
         
         if city_result 
           state_result = GeoinfoState.find_by_id(city_result.state_id)
@@ -161,7 +161,7 @@ class User < ActiveRecord::Base
           if location[0].upcase.split(" ").length >= 2
             check_location = location[0].sub("county", '').sub("bay", '').sub("area", '')
             conditions[:name] =  check_location.upcase.strip   
-            city_result = GeoinfoCity.where("name LIKE :name", conditions).find(:all, :order => "population_2000 desc").first
+            city_result = GeoinfoCity.where("name = :name", conditions).find(:all, :order => "population_2000 desc").first
             if city_result 
               state_result = GeoinfoState.find_by_id(city_result.state_id)
               if state_result
@@ -170,7 +170,20 @@ class User < ActiveRecord::Base
               end
               @city_id = city_result.id
          
-            end
+            else 
+              if location[0].upcase.split(" ").length > 2
+                check_location = location[0].sub("city", '')
+                conditions[:name] = check_location.upcase.strip
+                city_result = GeoinfoCity.where("name = :name", conditions).find(:all, :order => "population_2000 desc").first
+                if city_result 
+                  state_result = GeoinfoState.find_by_id(city_result.state_id)
+                  if state_result
+                    @state_id = city_result.state_id
+                  end
+                  @city_id = city_result.id
+                end
+              end
+            end 
           end
 
           
