@@ -20,6 +20,20 @@ class LiquorLicensesController < ApplicationController
   def view
     @liquor_license = LiquorLicense.find(params[:id])
     @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+    if session[:user_id] != nil and session[:user_id] != ''
+      @valid_user = User.find(:first, :conditions => ["username = ? ", session[:user_id]])
+
+      if @valid_user == nil
+        flash[:error] = "You don't have access to this section." 
+        redirect_to '/'
+        return
+      end 
+      
+    else
+      flash[:error] = "You don't have access to this section." 
+      redirect_to '/'
+      return
+    end
     @liquor_license_auction =LiquorLicenseAuction.where(:liquor_license_id => params[:id], :bidder_id =>  @valid_user.id).first
     if params[:auction] and params[:auction][:bid] != '' and params[:auction][:bid].to_f > 0
       if  @liquor_license.user
