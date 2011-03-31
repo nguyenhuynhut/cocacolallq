@@ -100,19 +100,26 @@ class User < ActiveRecord::Base
   def User.check_bid
     @users = User.find(:all)
     @users.each do |user|
-      auctions = LiquorLicenseAuction.where(:bidder_id => user.id)
-      auctions.each do |auction|
-        conditions = {}
-        conditions[:liquor_license_id] = auction.liquor_license_id
-        liquor_license_auction = LiquorLicenseAuction.where(" liquor_license_id = :liquor_license_id" ,conditions).order("price desc").first
-        if liquor_license_auction and liquor_license_auction.bidder_id != user.id
+      if user.kind == 'Buying' or user.kind == 'Both'
+        auctions = LiquorLicenseAuction.where(:bidder_id => user.id)
+        auctions.each do |auction|
           conditions = {}
-          conditions[:user_id] = user.id
-          conditions[:liquor_license_auction_id] = liquor_license_auction.id
-          bid_activity = BidActivity.where("user_id = :user_id AND liquor_license_auction_id = :liquor_license_auction_id" ,conditions).first
-          if bid_activity == nil
-            bid_activity = BidActivity.new(:user_id => user.id, :liquor_license_auction_id => liquor_license_auction.id, :status => false, :expiration_date => liquor_license_auction.liquor_license.expiration_date )
-            bid_activity.save()
+          if LiquorLicense.find_by_id(auction.liquor_license_id)
+            if  LiquorLicense.find_by_id(auction.liquor_license_id).purpose == 'Sell'
+
+              conditions[:liquor_license_id] = auction.liquor_license_id
+              liquor_license_auction = LiquorLicenseAuction.where(" liquor_license_id = :liquor_license_id" ,conditions).order("price desc").first
+              if liquor_license_auction and liquor_license_auction.bidder_id != user.id
+                conditions = {}
+                conditions[:user_id] = user.id
+                conditions[:liquor_license_auction_id] = liquor_license_auction.id
+                bid_activity = BidActivity.where("user_id = :user_id AND liquor_license_auction_id = :liquor_license_auction_id" ,conditions).first
+                if bid_activity == nil
+                  bid_activity = BidActivity.new(:user_id => user.id, :liquor_license_auction_id => liquor_license_auction.id, :status => false, :expiration_date => liquor_license_auction.liquor_license.expiration_date )
+                  bid_activity.save()
+                end
+              end
+            end
           end
         end
       end
